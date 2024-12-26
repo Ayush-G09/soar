@@ -1,8 +1,9 @@
 import React from 'react'
-import MyCards from '../components/Dashboard/MyCards/MyCards'
 import RecentTransactions from '../components/Dashboard/RecentTransactions'
-import WeeklyActivity from '../components/Dashboard/WeeklyActivity'
+import WeeklyActivity from '../components/Dashboard/WeeklyActivity/WeeklyActivity'
 import styled from 'styled-components'
+import ExpenseStatistics from '../components/Dashboard/ExpenseStatistics/ExpenseStatistics'
+import MyCards from '../components/Dashboard/MyCards'
 
 function Dashboard() {
   return (
@@ -13,6 +14,7 @@ function Dashboard() {
       </div>
       <div style={{width: '100%', display: 'flex', gap: '30px'}}>
         <WeeklyActivity/>
+        <ExpenseStatistics/>
       </div>
     </StyledDashboard>
   )

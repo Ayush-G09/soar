@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import Label from '../../Label'
-import CardChip from '../../../assets/Chip_Card.png'
-import CardChip2 from '../../../assets/Chip_Card (1).png'
-import CardLogo from '../../../assets/Group 17.png'
-import CardLogo2 from '../../../assets/Group 17 (1).png'
-import { CreditCardType } from '../../../types'
+import CardChip from '../../assets/Chip_Card.png'
+import CardChip2 from '../../assets/Chip_Card (1).png'
+import CardLogo from '../../assets/Group 17.png'
+import CardLogo2 from '../../assets/Group 17 (1).png'
 import { motion } from 'framer-motion';
+import { CreditCardType } from '../../types'
+import Label from '../Label'
 
 const CardsData = [
   {
