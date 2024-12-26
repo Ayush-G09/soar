@@ -110,7 +110,7 @@ gap: 1rem;
 padding-left: 20%;
 cursor: pointer;
 box-sizing: border-box;
-margin-bottom: 0.5rem;
+margin-bottom: 0.8rem;
 
 &:hover {
     background-color: #f0f0f0;

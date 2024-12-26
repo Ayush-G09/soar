@@ -7,11 +7,12 @@ type Props = {
     weight: number;
     color: string;
     sx?: CSSProperties;
+    click?: () => void;
 }
 
-function Label({children, size, weight, color, sx}: Props) {
+function Label({children, size, weight, color, sx, click}: Props) {
   return (
-    <div style={{fontSize: size, fontWeight: weight, color: color, ...sx}}>{children}</div>
+    <div onClick={click} style={{fontSize: size, fontWeight: weight, color: color, ...sx}}>{children}</div>
   )
 }
 
