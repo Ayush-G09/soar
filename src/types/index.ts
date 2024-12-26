@@ -5,4 +5,12 @@ export type CreditCardType = {
     holder: string,
     valid: string,
     cardNo: string,
+};
+
+export type TransactionType = {
+    id: string,
+    badgeType: 'deposit' | 'paypal' | 'dollar',
+    title: string,
+    date: string,
+    amount: string,
 }

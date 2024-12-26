@@ -10,7 +10,9 @@ function Layout() {
         <Sidebar/>
         <div style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%', boxSizing: 'border-box'}}>
         <Header/>
-        <Outlet/>
+        <div style={{width: '100%', height: '90%', boxSizing: 'border-box'}}>
+          <Outlet/>
+        </div>
         </div>
     </StyledLayout>
   )
