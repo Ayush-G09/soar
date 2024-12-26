@@ -22,16 +22,9 @@ const StyledLayout = styled.div`
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  overflow-y: scroll;
   background-color: #f5f7fa;
   display: flex;
   box-sizing: border-box;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  scrollbar-width: none;
 `;
 
 export default Layout;
