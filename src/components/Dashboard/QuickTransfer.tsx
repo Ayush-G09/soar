@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import Label from '../Label';
 import user1 from '../../assets/user1.svg';
 import user2 from '../../assets/user2.svg';
@@ -25,25 +25,14 @@ function QuickTransfer() {
   const [isScrollStart, setIsScrollStart] = useState(true);
   const [isScrollEnd, setIsScrollEnd] = useState(false);
 
-  const handleScrollRight = () => {
+  const handleScroll = (direction: 'left' | 'right') => {
     if (containerRef.current) {
       const childWidth = containerRef.current.firstChild
         ? (containerRef.current.firstChild as HTMLElement).offsetWidth
         : 0;
+      const scrollAmount = direction === 'left' ? -(childWidth + 12) : childWidth + 12;
       containerRef.current.scrollBy({
-        left: childWidth + 12,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  const handleScrollLeft = () => {
-    if (containerRef.current) {
-      const childWidth = containerRef.current.firstChild
-        ? (containerRef.current.firstChild as HTMLElement).offsetWidth
-        : 0;
-      containerRef.current.scrollBy({
-        left: -(childWidth + 12),
+        left: scrollAmount,
         behavior: 'smooth',
       });
     }
@@ -59,18 +48,35 @@ function QuickTransfer() {
 
   useEffect(() => {
     const container = containerRef.current;
-
     if (container) {
       container.addEventListener('scroll', checkScrollPosition);
       checkScrollPosition();
     }
-
     return () => {
       if (container) {
         container.removeEventListener('scroll', checkScrollPosition);
       }
     };
   }, []);
+
+  const usersList = useMemo(
+    () =>
+      UsersData.map((user) => (
+        <UserCard
+          key={user.id}
+          onClick={() => setSelected(user.id)}
+        >
+          <UserImage src={user.img} alt={user.name} />
+          <Label weight={selected === user.id ? 700 : 400} size="16px" color="#232323">
+            {user.name}
+          </Label>
+          <Label weight={selected === user.id ? 700 : 400} size="15px" color="#718EBF">
+            {selected === user.id ? user.role.toUpperCase() : user.role}
+          </Label>
+        </UserCard>
+      )),
+    [selected]
+  );
 
   return (
     <Container>
@@ -80,43 +86,25 @@ function QuickTransfer() {
       <ContentBox>
         <UsersSection>
           <StyledUserContainer ref={containerRef}>
-            {UsersData.map((user) => (
-              <UserCard
-                key={user.id}
-                onClick={() => setSelected(user.id)}
-                isSelected={selected === user.id}
-              >
-                <UserImage src={user.img} alt={user.name} />
-                <Label weight={selected === user.id ? 700 : 400} size="16px" color="#232323">
-                  {user.name}
-                </Label>
-                <Label
-                  weight={selected === user.id ? 700 : 400}
-                  size="15px"
-                  color="#718EBF"
-                >
-                  {selected === user.id ? user.role.toUpperCase() : user.role}
-                </Label>
-              </UserCard>
-            ))}
+            {usersList}
           </StyledUserContainer>
           <ArrowContainer>
             {!isScrollEnd && (
               <CircularBadge
-                click={handleScrollRight}
-                sx={{ boxShadow: '4px 4px 18px -2px #E7E4E8CC', cursor: 'pointer' }}
-                bg="white"
+                onClick={() => handleScroll('right')}
+                sx={BadgeStyle}
                 img={rightArrow}
                 size="50px"
+                bg='whiite'
               />
             )}
             {!isScrollStart && (
               <CircularBadge
-                click={handleScrollLeft}
-                sx={{ boxShadow: '4px 4px 18px -2px #E7E4E8CC', cursor: 'pointer' }}
-                bg="white"
+                onClick={() => handleScroll('left')}
+                sx={BadgeStyle}
                 img={leftArrow}
                 size="50px"
+                bg='white'
               />
             )}
           </ArrowContainer>
@@ -128,11 +116,9 @@ function QuickTransfer() {
           <AmountContainer>
             <Input placeholder="e.g. 505.5" />
             <SendButton>
-              <SendButtonText>
-                <Label weight={500} size="16px" color="#FFFFFF">
-                  Send
-                </Label>
-              </SendButtonText>
+              <Label weight={500} size="16px" color="#FFFFFF">
+                Send
+              </Label>
               <SendIcon src={send} alt="Send" />
             </SendButton>
           </AmountContainer>
@@ -140,7 +126,7 @@ function QuickTransfer() {
       </ContentBox>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   width: 445px;
@@ -192,7 +178,7 @@ const StyledUserContainer = styled.div`
   scrollbar-width: none;
 `;
 
-const UserCard = styled.div<{ isSelected: boolean }>`
+const UserCard = styled.div`
   min-width: 30%;
   height: 100%;
   cursor: pointer;
@@ -268,5 +254,17 @@ const SendIcon = styled.img`
   width: 26px;
   height: 22.6px;
 `;
+
+const Badge = styled(CircularBadge)`
+  box-shadow: 4px 4px 18px -2px #e7e4e8cc;
+  cursor: pointer;
+  background-color: white;
+`;
+
+const BadgeStyle = {
+  boxShadow: '4px 4px 18px -2px #E7E4E8CC',
+  cursor: 'pointer',
+  bg: 'white',
+};
 
 export default QuickTransfer;

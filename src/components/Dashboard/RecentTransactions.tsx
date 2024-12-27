@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import Label from '../Label';
 import CircularBadge from '../CircularBadge';
@@ -31,7 +30,15 @@ const transactionsData = [
   },
 ] as TransactionType[];
 
-function RecentTransactions() {
+const badgeLookup = {
+  deposit: { img: Deposit, bg: '#FFF5D9' },
+  paypal: { img: Paypal, bg: '#E7EDFF' },
+  dollar: { img: Dollar, bg: '#DCFAF8' },
+};
+
+const getAmountColor = (amount: string) => (amount.includes('-') ? '#FF4B4A' : '#41D4A8');
+
+const RecentTransactions = () => {
   return (
     <Container>
       <Title weight={600} size="22px" color="#343C6A">
@@ -40,13 +47,12 @@ function RecentTransactions() {
       <TransactionList>
         {transactionsData.map((data) => (
           <TransactionItem key={data.id}>
-            {data.badgeType === 'deposit' ? (
-              <CircularBadge size="50px" icon="25px" bg="#FFF5D9" img={Deposit} />
-            ) : data.badgeType === 'paypal' ? (
-              <CircularBadge size="50px" icon="25px" bg="#E7EDFF" img={Paypal} />
-            ) : (
-              <CircularBadge size="50px" icon="25px" bg="#DCFAF8" img={Dollar} />
-            )}
+            <CircularBadge
+              size="50px"
+              iconSize="25px"
+              bg={badgeLookup[data.badgeType]?.bg || '#DCFAF8'}
+              img={badgeLookup[data.badgeType]?.img}
+            />
             <TransactionDetails>
               <Label weight={500} size="16px" color="#232323">
                 {data.title}
@@ -55,20 +61,15 @@ function RecentTransactions() {
                 {data.date}
               </Label>
             </TransactionDetails>
-            <Amount
-              weight={500}
-              size="16px"
-              color={data.amount.includes('-') ? '#FF4B4A' : '#41D4A8'}
-              sx={{marginLeft: 'auto'}}
-            >
+            <Label weight={500} size="16px" color={getAmountColor(data.amount)} sx={{marginLeft: 'auto'}}>
               {data.amount}
-            </Amount>
+            </Label>
           </TransactionItem>
         ))}
       </TransactionList>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   width: 350px;
@@ -104,10 +105,6 @@ const TransactionItem = styled.div`
 const TransactionDetails = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const Amount = styled(Label)`
-  margin-left: auto;
 `;
 
 export default RecentTransactions;

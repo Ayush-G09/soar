@@ -1,23 +1,31 @@
 export type CreditCardType = {
-    id: string;
-    type: 'black' | 'white',
-    balance: number,
-    holder: string,
-    valid: string,
-    cardNo: string,
+  id: string;
+  type: "black" | "white";
+  balance: number;
+  holder: string;
+  valid: string;
+  cardNo: string;
 };
 
 export type TransactionType = {
-    id: string,
-    badgeType: 'deposit' | 'paypal' | 'dollar',
-    title: string,
-    date: string,
-    amount: string,
+  id: string;
+  badgeType: "deposit" | "paypal" | "dollar";
+  title: string;
+  date: string;
+  amount: string;
 };
 
-export type UserType =     {
-    id: string,
-    name: string,
-    role: string,
-    img: string,
+export type UserType = {
+  id: string;
+  name: string;
+  role: string;
+  img: string;
+};
+
+export type SidebarItemType = {
+  id: string;
+  nImg: string;
+  sImg: string;
+  title: string;
+  path: string;
 };

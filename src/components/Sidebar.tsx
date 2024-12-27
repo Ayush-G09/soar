@@ -1,4 +1,5 @@
-import Label from './Label';
+import React, { memo } from 'react';
+import Label from './Label'; 
 import taskFill from '../assets/task-fill.png';
 import Home from '../assets/home.png';
 import HomeS from '../assets/home (1).png';
@@ -20,68 +21,41 @@ import Setting from '../assets/settings.png';
 import SettingS from '../assets/settings (1).png';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { SidebarItemType } from '../types';
 
 const SidebarItems = [
-  {
-    nImg: Home,
-    sImg: HomeS,
-    title: 'Dashboard',
-    path: '/dashboard',
-  },
-  {
-    nImg: Transaction,
-    sImg: TransactionS,
-    title: 'Transactions',
-    path: '/transactions',
-  },
-  {
-    nImg: Account,
-    sImg: AccountS,
-    title: 'Accounts',
-    path: '/accounts',
-  },
-  {
-    nImg: Investment,
-    sImg: InvestmentS,
-    title: 'Investments',
-    path: '/investments',
-  },
-  {
-    nImg: CreditCard,
-    sImg: CreditCardS,
-    title: 'Credit Cards',
-    path: '/credit-cards',
-  },
-  {
-    nImg: Loan,
-    sImg: LoanS,
-    title: 'Loans',
-    path: '/loans',
-  },
-  {
-    nImg: Service,
-    sImg: ServiceS,
-    title: 'Services',
-    path: '/services',
-  },
-  {
-    nImg: Privilage,
-    sImg: PrivilageS,
-    title: 'My Privileges',
-    path: '/my-previleges',
-  },
-  {
-    nImg: Setting,
-    sImg: SettingS,
-    title: 'Setting',
-    path: '/setting',
-  },
-];
+  { id: '123', nImg: Home, sImg: HomeS, title: 'Dashboard', path: '/dashboard' },
+  { id: '124', nImg: Transaction, sImg: TransactionS, title: 'Transactions', path: '/transactions' },
+  { id: '125', nImg: Account, sImg: AccountS, title: 'Accounts', path: '/accounts' },
+  { id: '126', nImg: Investment, sImg: InvestmentS, title: 'Investments', path: '/investments' },
+  { id: '127', nImg: CreditCard, sImg: CreditCardS, title: 'Credit Cards', path: '/credit-cards' },
+  { id: '128', nImg: Loan, sImg: LoanS, title: 'Loans', path: '/loans' },
+  { id: '129', nImg: Service, sImg: ServiceS, title: 'Services', path: '/services' },
+  { id: '130', nImg: Privilage, sImg: PrivilageS, title: 'My Privileges', path: '/my-previleges' },
+  { id: '131', nImg: Setting, sImg: SettingS, title: 'Settings', path: '/setting' }
+] as SidebarItemType[];
 
-function Sidebar() {
+const isActivePath = (currentPath: string, itemPath: string): boolean => {
+  return currentPath === itemPath;
+};
+
+const SidebarItem = memo(({ item }: { item: SidebarItemType }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  
+  const active = isActivePath(location.pathname, item.path);
+  
+  return (
+    <StyledSidebarItem onClick={() => navigate(item.path)}>
+      <StyledIcon src={active ? item.nImg : item.sImg} />
+      <Label color={active ? '#232323' : '#b1b1b1'} weight={500} size="15px">
+        {item.title}
+      </Label>
+    </StyledSidebarItem>
+  );
+});
 
+function Sidebar() {
   return (
     <StyledSidebar>
       <StyledHeader>
@@ -90,22 +64,8 @@ function Sidebar() {
           Soar Task
         </Label>
       </StyledHeader>
-      {SidebarItems.map((item, index) => (
-        <StyledSidebarItem
-          key={`${item.title}${index}`}
-          onClick={() => navigate(item.path)}
-        >
-          <StyledIcon
-            src={location.pathname === item.path ? item.nImg : item.sImg}
-          />
-          <Label
-            color={location.pathname === item.path ? '#232323' : '#b1b1b1'}
-            weight={500}
-            size="15px"
-          >
-            {item.title}
-          </Label>
-        </StyledSidebarItem>
+      {SidebarItems.map((item) => (
+        <SidebarItem key={item.id} item={item} />
       ))}
     </StyledSidebar>
   );

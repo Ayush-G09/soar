@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import styled from "styled-components";
 import CardChip from "../../assets/Chip_Card.png";
 import CardChip2 from "../../assets/Chip_Card (1).png";
@@ -9,144 +9,63 @@ import { CreditCardType } from "../../types";
 import Label from "../Label";
 
 const CardsData = [
-  {
-    id: "753689",
-    type: "black",
-    balance: 5756,
-    holder: "Eddy Cusuma",
-    valid: "12/22",
-    cardNo: "3778 **** **** 1234",
-  },
-  {
-    id: "951258",
-    type: "white",
-    balance: 4556,
-    holder: "Elf Cusuma",
-    valid: "12/26",
-    cardNo: "3778 **** **** 1234",
-  },
-  {
-    id: "156248",
-    type: "black",
-    balance: 5756,
-    holder: "Eddy Cusuma",
-    valid: "12/22",
-    cardNo: "3778 **** **** 1234",
-  },
+  { id: "753689", type: "black", balance: 5756, holder: "Eddy Cusuma", valid: "12/22", cardNo: "3778 **** **** 1234" },
+  { id: "951258", type: "white", balance: 4556, holder: "Elf Cusuma", valid: "12/26", cardNo: "3778 **** **** 1234" },
+  { id: "156248", type: "black", balance: 5756, holder: "Eddy Cusuma", valid: "12/22", cardNo: "3778 **** **** 1234" },
 ] as CreditCardType[];
 
 function MyCards() {
   const [seeAll, setSeeAll] = useState<boolean>(false);
 
+  const cardElements = useMemo(() => {
+    return CardsData.map((card) => {
+      const isBlackCard = card.type === "black";
+      const cardChip = isBlackCard ? CardChip : CardChip2;
+      const cardLogo = isBlackCard ? CardLogo : CardLogo2;
+      const textColor = isBlackCard ? "white" : "#343C6A";
+      const secondaryTextColor = isBlackCard ? "rgba(255, 255, 255, 0.7)" : "#718EBF";
+
+      return (
+        <Card key={card.id} $cardType={card.type}>
+          <CardContent>
+            <CardHeader>
+              <div>
+                <Label color={textColor} size="12px" weight={400}>Balance</Label>
+                <Label color={textColor} size="18px" weight={600}>${card.balance}</Label>
+              </div>
+              <img src={cardChip} alt="Card Chip" />
+            </CardHeader>
+            <CardDetails>
+              <div>
+                <Label weight={400} size="12px" color={secondaryTextColor}>CARD HOLDER</Label>
+                <Label weight={600} size="15px" color={textColor}>{card.holder}</Label>
+              </div>
+              <div>
+                <Label weight={400} size="12px" color={secondaryTextColor}>VALID THRU</Label>
+                <Label weight={600} size="15px" color={textColor}>{card.valid}</Label>
+              </div>
+            </CardDetails>
+          </CardContent>
+          <CardFooter $cardType={card.type}>
+            <CardFooterContent>
+              <Label size="22px" weight={600} color={textColor}>{card.cardNo}</Label>
+              <img src={cardLogo} alt="Card Logo" />
+            </CardFooterContent>
+          </CardFooter>
+        </Card>
+      );
+    });
+  }, [CardsData]);
+
   return (
-    <Container
-      initial={{ height: 282 }}
-      animate={{ height: seeAll ? "auto" : 282 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-    >
+    <Container initial={{ height: 282 }} animate={{ height: seeAll ? "auto" : 282 }} transition={{ duration: 0.3, ease: "easeInOut" }}>
       <Header>
-        <Label color="#343C6A" size="22px" weight={600}>
-          My Cards
-        </Label>
-        <Label
-          click={() => setSeeAll(!seeAll)}
-          sx={{ cursor: "pointer", marginTop: '5px' }}
-          color="#343C6A"
-          size="15px"
-          weight={600}
-        >
+        <Label color="#343C6A" size="22px" weight={600}>My Cards</Label>
+        <Label click={() => setSeeAll(!seeAll)} sx={{ cursor: "pointer", marginTop: '5px' }} color="#343C6A" size="15px" weight={600}>
           {seeAll ? "Show Less" : "See All"}
         </Label>
       </Header>
-      <CardsGrid>
-        {CardsData.map((card) => (
-          <Card key={card.id} cardType={card.type}>
-            <CardContent>
-              <CardHeader>
-                <div>
-                  <Label
-                    color={card.type === "black" ? "#FFFFFF" : "#718EBF"}
-                    size="12px"
-                    weight={400}
-                  >
-                    Balance
-                  </Label>
-                  <Label
-                    color={card.type === "black" ? "#FFFFFF" : "#343C6A"}
-                    size="18px"
-                    weight={600}
-                  >
-                    ${card.balance}
-                  </Label>
-                </div>
-                <img
-                  src={card.type === "black" ? CardChip : CardChip2}
-                  alt="Card Chip"
-                  style={{ width: "35px", height: "35px" }}
-                />
-              </CardHeader>
-              <CardDetails>
-                <div>
-                  <Label
-                    weight={400}
-                    size="12px"
-                    color={
-                      card.type === "black"
-                        ? "rgba(255, 255, 255, 0.7)"
-                        : "#718EBF"
-                    }
-                  >
-                    CARD HOLDER
-                  </Label>
-                  <Label
-                    weight={600}
-                    size="15px"
-                    color={card.type === "black" ? "white" : "#343C6A"}
-                  >
-                    {card.holder}
-                  </Label>
-                </div>
-                <div>
-                  <Label
-                    weight={400}
-                    size="12px"
-                    color={
-                      card.type === "black"
-                        ? "rgba(255, 255, 255, 0.7)"
-                        : "#718EBF"
-                    }
-                  >
-                    VALID THRU
-                  </Label>
-                  <Label
-                    weight={600}
-                    size="15px"
-                    color={card.type === "black" ? "white" : "#343C6A"}
-                  >
-                    {card.valid}
-                  </Label>
-                </div>
-              </CardDetails>
-            </CardContent>
-            <CardFooter cardType={card.type}>
-              <CardFooterContent>
-                <Label
-                  size="22px"
-                  weight={600}
-                  color={card.type === "black" ? "white" : "#343C6A"}
-                >
-                  {card.cardNo}
-                </Label>
-                <img
-                  src={card.type === "black" ? CardLogo : CardLogo2}
-                  alt="Card Logo"
-                  style={{ width: "44px", height: "30px" }}
-                />
-              </CardFooterContent>
-            </CardFooter>
-          </Card>
-        ))}
-      </CardsGrid>
+      <CardsGrid>{cardElements}</CardsGrid>
     </Container>
   );
 }
@@ -174,17 +93,13 @@ const CardsGrid = styled.div`
   overflow: hidden;
 `;
 
-const Card = styled.div<{ cardType: string }>`
+const Card = styled.div<{ $cardType: string }>`
   min-width: 350px;
   height: 235px;
   border-radius: 25px;
   box-sizing: border-box;
-  background: ${({ cardType }) =>
-    cardType === "black"
-      ? "linear-gradient(270deg, rgba(0,0,0,1) 0%, rgba(91,90,111,1) 100%)"
-      : "white"};
-  border: ${({ cardType }) =>
-    cardType === "black" ? "none" : "1px solid #DFEAF2"};
+  background: ${({ $cardType }) => ($cardType === "black" ? "linear-gradient(270deg, rgba(0,0,0,1) 0%, rgba(91,90,111,1) 100%)" : "white")};
+  border: ${({ $cardType }) => ($cardType === "black" ? "none" : "1px solid #DFEAF2")};
 `;
 
 const CardContent = styled.div`
@@ -212,18 +127,14 @@ const CardDetails = styled.div`
   gap: 67px;
 `;
 
-const CardFooter = styled.div<{ cardType: string }>`
+const CardFooter = styled.div<{ $cardType: string }>`
   width: 100%;
   height: 70px;
-  background: ${({ cardType }) =>
-    cardType === "black"
-      ? "linear-gradient(180deg, rgba(225, 225, 225, 0.15) 0%, rgba(225, 225, 225, 0) 100%)"
-      : "transparent"};
+  background: ${({ $cardType }) => ($cardType === "black" ? "linear-gradient(180deg, rgba(225, 225, 225, 0.15) 0%, rgba(225, 225, 225, 0) 100%)" : "transparent")};
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: ${({ cardType }) =>
-    cardType === "black" ? "none" : "1px solid rgba(223, 234, 242, 1)"};
+  border-top: ${({ $cardType }) => ($cardType === "black" ? "none" : "1px solid rgba(223, 234, 242, 1)")};
 `;
 
 const CardFooterContent = styled.div`
