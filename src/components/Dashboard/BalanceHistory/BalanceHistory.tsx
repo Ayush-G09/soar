@@ -1,16 +1,34 @@
-import React from 'react'
-import Label from '../../Label'
-import BalanceChart from './BalanceChart'
+import styled from 'styled-components';
+import Label from '../../Label';
+import BalanceChart from './BalanceChart';
 
 function BalanceHistory() {
   return (
-    <div style={{width: '635px', height: '323px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-        <Label weight={600} size='22px' color='#343C6A'>Balance History</Label>
-        <div style={{width: '100%', height: '276px', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '25px'}}>
-            <BalanceChart/>
-        </div>
-    </div>
-  )
-}
+    <BalanceHistoryContainer>
+      <Label weight={600} size='22px' color='#343C6A'>Balance History</Label>
+      <ChartContainer>
+        <BalanceChart />
+      </ChartContainer>
+    </BalanceHistoryContainer>
+  );
+};
 
-export default BalanceHistory
+const BalanceHistoryContainer = styled.div`
+  width: 635px;
+  height: 323px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const ChartContainer = styled.div`
+  width: 100%;
+  height: 276px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+`;
+
+export default BalanceHistory;

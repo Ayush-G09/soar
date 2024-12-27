@@ -1,9 +1,22 @@
-import React from 'react'
+import styled from "styled-components";
+import Label from "../components/Label";
 
 function Accounts() {
   return (
-    <div>Accounts</div>
-  )
+    <StyledContainer>
+      <Label weight={500} size="30px" color="#232323">
+        Accounts
+      </Label>
+    </StyledContainer>
+  );
 }
 
-export default Accounts
+const StyledContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export default Accounts;

@@ -1,15 +1,46 @@
-import React from 'react'
-import magnifyingGlass from '../assets/magnifying-glass.png'
+import styled from "styled-components";
+import magnifyingGlass from "../assets/magnifying-glass.png";
 
 function SearchBox() {
   return (
-    <div style={{display: 'flex', alignItems: 'center', background: '#F5F7FA', height: '40px', borderRadius: '40px', width: '255px', overflow: 'hidden'}}>
-            <div style={{width: '15%', height: '90%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <img src={magnifyingGlass} style={{width: '15px', height: '15px'}}/>
-            </div>
-            <input type='text' placeholder='Search for something' style={{width: '75%', height: '95%', border: 'none', outline: 'none', backgroundColor: 'transparent'}} />
-        </div>
-  )
+    <StyledSearchBox>
+      <StyledIconWrapper>
+        <StyledIcon src={magnifyingGlass} />
+      </StyledIconWrapper>
+      <StyledInput type="text" placeholder="Search for something" />
+    </StyledSearchBox>
+  );
 }
 
-export default SearchBox
+const StyledSearchBox = styled.div`
+  display: flex;
+  align-items: center;
+  background: #f5f7fa;
+  height: 40px;
+  border-radius: 40px;
+  width: 255px;
+  overflow: hidden;
+`;
+
+const StyledIconWrapper = styled.div`
+  width: 15%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledIcon = styled.img`
+  width: 15px;
+  height: 15px;
+`;
+
+const StyledInput = styled.input`
+  width: 75%;
+  height: 95%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+`;
+
+export default SearchBox;
