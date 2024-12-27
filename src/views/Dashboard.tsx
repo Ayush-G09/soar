@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import ExpenseStatistics from '../components/Dashboard/ExpenseStatistics/ExpenseStatistics'
 import MyCards from '../components/Dashboard/MyCards'
 import QuickTransfer from '../components/Dashboard/QuickTransfer'
+import BalanceHistory from '../components/Dashboard/BalanceHistory/BalanceHistory'
 
 function Dashboard() {
   return (
@@ -19,6 +20,7 @@ function Dashboard() {
       </div>
       <div style={{width: '100%', display: 'flex', gap: '30px'}}>
         <QuickTransfer/>
+        <BalanceHistory/>
       </div>
     </StyledDashboard>
   )

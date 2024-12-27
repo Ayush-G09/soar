@@ -15,8 +15,8 @@ const ActivityChart = () => {
     grid: {
         top: '20%',
         bottom: '0%',
-        left: '10%',
-        right: '10%',
+        left: '5%',
+        right: '5%',
         containLabel: true,
     },
     xAxis: [
