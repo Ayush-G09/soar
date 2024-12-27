@@ -1,16 +1,18 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { CSSProperties } from 'styled-components'
 
 type Props = {
     bg: string;
     img: string;
     size?: string;
     icon?: string;
+    sx?: CSSProperties; 
+    click?: () => void;
 }
 
-function CircularBadge({bg, img, size = '40px', icon = '20px'}: Props) {
+function CircularBadge({bg, img, size = '40px', icon = '20px', sx, click}: Props) {
   return (
-    <StyledCircularBadge bg={bg} size={size}>
+    <StyledCircularBadge bg={bg} size={size} style={sx} onClick={click}>
         <img src={img} style={{width: icon, height: icon}}/>
     </StyledCircularBadge>
   )

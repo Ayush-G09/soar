@@ -4,6 +4,7 @@ import WeeklyActivity from '../components/Dashboard/WeeklyActivity/WeeklyActivit
 import styled from 'styled-components'
 import ExpenseStatistics from '../components/Dashboard/ExpenseStatistics/ExpenseStatistics'
 import MyCards from '../components/Dashboard/MyCards'
+import QuickTransfer from '../components/Dashboard/QuickTransfer'
 
 function Dashboard() {
   return (
@@ -15,6 +16,9 @@ function Dashboard() {
       <div style={{width: '100%', display: 'flex', gap: '30px'}}>
         <WeeklyActivity/>
         <ExpenseStatistics/>
+      </div>
+      <div style={{width: '100%', display: 'flex', gap: '30px'}}>
+        <QuickTransfer/>
       </div>
     </StyledDashboard>
   )

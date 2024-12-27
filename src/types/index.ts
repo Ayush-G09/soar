@@ -13,4 +13,11 @@ export type TransactionType = {
     title: string,
     date: string,
     amount: string,
-}
+};
+
+export type UserType =     {
+    id: string,
+    name: string,
+    role: string,
+    img: string,
+};
