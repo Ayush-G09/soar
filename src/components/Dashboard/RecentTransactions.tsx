@@ -5,7 +5,6 @@ import Deposit from '../../assets/deposit.png';
 import Dollar from '../../assets/dollar.png';
 import Paypal from '../../assets/paypal.png';
 import { TransactionType } from '../../types';
-import { breakpoints } from '../../utils';
 
 const transactionsData = [
   {
@@ -42,9 +41,9 @@ const getAmountColor = (amount: string) => (amount.includes('-') ? '#FF4B4A' : '
 const RecentTransactions = () => {
   return (
     <Container>
-      <Heading>
+      <Label weight={600} size="22px" color="#343C6A">
         Recent Transaction
-      </Heading>
+      </Label>
       <TransactionList>
         {transactionsData.map((data) => (
           <TransactionItem key={data.id}>
@@ -55,16 +54,16 @@ const RecentTransactions = () => {
               img={badgeLookup[data.badgeType]?.img}
             />
             <TransactionDetails>
-              <Title>
+              <Label weight={500} size="16px" color="#232323">
                 {data.title}
-              </Title>
-              <Date>
+              </Label>
+              <Label weight={400} size="15px" color="#718EBF">
                 {data.date}
-              </Date>
+              </Label>
             </TransactionDetails>
-            <Amount style={{color: getAmountColor(data.amount)}}>
+            <Label weight={500} size="16px" color={getAmountColor(data.amount)} sx={{marginLeft: 'auto'}}>
               {data.amount}
-            </Amount>
+            </Label>
           </TransactionItem>
         ))}
       </TransactionList>
@@ -73,27 +72,11 @@ const RecentTransactions = () => {
 };
 
 const Container = styled.div`
-  width: 100%;
-  height: 235px;
+  width: 350px;
+  height: 282px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  @media (min-width: ${breakpoints.tablet}) {
-        width: 350px;
-        height: 282px;
-      }
-`;
-
-const Heading = styled.label`
-font-size: 16px;
-font-weight: 600;
-color: #343C6A;
-margin-bottom: 1rem;
-
-@media (min-width: ${breakpoints.tablet}) {
-        font-size: 22px;
-      }
 `;
 
 const TransactionList = styled.div`
@@ -105,59 +88,19 @@ const TransactionList = styled.div`
   border-radius: 25px;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-
-  @media (min-width: ${breakpoints.tablet}) {
-        gap: 1rem;
-        width: 100%;
-      }
+  gap: 1rem;
 `;
 
 const TransactionItem = styled.div`
   display: flex;
   align-items: center;
-  width: 270px;
+  width: 301px;
   gap: 1rem;
-
-  @media (min-width: ${breakpoints.tablet}) {
-        width: 301px;
-      }
 `;
 
 const TransactionDetails = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const Title = styled.label`
-font-size: 14px;
-font-weight: 500;
-color: #232323;
-
-@media (min-width: ${breakpoints.tablet}) {
-        font-size: 16px;
-      }
-`;
-
-
-const Date = styled.label`
-font-size: 12px;
-font-weight: 400;
-color: #718EBF;
-
-@media (min-width: ${breakpoints.tablet}) {
-        font-size: 15px;
-      }
-`;
-
-const Amount = styled.label`
-font-size: 11px;
-font-weight: 500;
-margin-left: auto;
-
-@media (min-width: ${breakpoints.tablet}) {
-        font-size: 16px;
-      }
 `;
 
 export default RecentTransactions;

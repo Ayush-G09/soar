@@ -17,7 +17,7 @@ function Header({openSidebar}: Props) {
     <StyledHeader>
       <div style={{display: 'flex', height: '100%', width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
         <Menu src={menu} onClick={() => openSidebar(true)} />
-        <Label sx={{fontSize: '28px'}} weight={600} color="#343C6A">
+        <Label size='28px' weight={600} color="#343C6A">
           Overview
         </Label>
         <ActionBar>

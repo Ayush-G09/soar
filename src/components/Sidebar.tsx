@@ -104,7 +104,7 @@ const SidebarItem = memo(({ item }: { item: SidebarItemType }) => {
   return (
     <StyledSidebarItem onClick={() => navigate(item.path)}>
       <StyledIcon src={active ? item.nImg : item.sImg} />
-      <Label color={active ? "#232323" : "#b1b1b1"} weight={500} sx={{fontSize: '15px'}}>
+      <Label color={active ? "#232323" : "#b1b1b1"} weight={500} size='15px'>
         {item.title}
       </Label>
     </StyledSidebarItem>
@@ -137,7 +137,7 @@ function Sidebar({ opened, closeSidebar }: Props) {
     >
       <StyledHeader>
         <StyledLogo src={taskFill} />
-        <Label weight={700} sx={{fontSize: '25px'}} color="#343C6A">
+        <Label weight={700} size='25px' color="#343C6A">
           Soar Task
         </Label>
       </StyledHeader>

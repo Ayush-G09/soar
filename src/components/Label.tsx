@@ -3,16 +3,18 @@ import styled, { CSSProperties } from "styled-components";
 
 type Props = {
   children: React.ReactNode;
+  size: string;
   weight: number;
   color: string;
   sx?: CSSProperties;
   click?: () => void;
 };
 
-function Label({ children, weight, color, sx, click }: Props) {
+function Label({ children, size, weight, color, sx, click }: Props) {
   return (
     <StyledLabel
       onClick={click}
+      $size={size}
       $weight={weight}
       $color={color}
       style={sx}
@@ -23,9 +25,11 @@ function Label({ children, weight, color, sx, click }: Props) {
 }
 
 const StyledLabel = styled.div<{
+  $size: string; 
   $weight: number; 
   $color: string;
 }>`
+  font-size: ${({ $size }) => $size};
   font-weight: ${({ $weight }) => $weight};
   color: ${({ $color }) => $color};
 `;
