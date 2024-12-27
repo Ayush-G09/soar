@@ -2,13 +2,24 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { breakpoints } from "../utils";
 
 function Layout() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+  const toggleSidebar = (e: boolean) => {
+    setIsSidebarOpen(e);
+  };
+
+  useEffect(() => {
+    console.log({isSidebarOpen})
+  }, [isSidebarOpen]);
   return (
     <StyledLayout>
-      <Sidebar />
+      <Sidebar opened={isSidebarOpen} closeSidebar={(e: boolean) => toggleSidebar(e)} />
       <ContentArea>
-        <Header />
+        <Header openSidebar={(e: boolean) => toggleSidebar(e)} />
         <MainContent>
           <Outlet />
         </MainContent>
@@ -36,8 +47,12 @@ const ContentArea = styled.div`
 
 const MainContent = styled.div`
   width: 100%;
-  height: 90%;
+  height: 80%;
   box-sizing: border-box;
+
+  @media (min-width: ${breakpoints.tablet}) {
+      height: 90%;
+  }
 `;
 
 export default Layout;

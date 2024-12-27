@@ -5,6 +5,7 @@ import ExpenseStatistics from "../components/Dashboard/ExpenseStatistics/Expense
 import MyCards from "../components/Dashboard/MyCards";
 import QuickTransfer from "../components/Dashboard/QuickTransfer";
 import BalanceHistory from "../components/Dashboard/BalanceHistory/BalanceHistory";
+import { breakpoints } from "../utils";
 
 function Dashboard() {
   return (
@@ -28,7 +29,7 @@ function Dashboard() {
 const StyledDashboard = styled.div`
   width: 100%;
   height: 100%;
-  padding: 30px;
+  padding: 10px;
   gap: 30px;
   display: flex;
   flex-direction: column;
@@ -42,12 +43,21 @@ const StyledDashboard = styled.div`
   }
 
   scrollbar-width: none;
+
+  @media (min-width: ${breakpoints.tablet}) {
+      padding: 30px;
+    }
 `;
 
 const Row = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
   gap: 30px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+      flex-direction: row;
+    }
 `;
 
 export default Dashboard;

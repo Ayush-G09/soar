@@ -9,6 +9,8 @@ import CircularBadge from '../CircularBadge';
 import rightArrow from '../../assets/right-arrow.png';
 import leftArrow from '../../assets/left-arrow.png';
 import send from '../../assets/Send.png';
+import { breakpoints } from '../../utils';
+import { useMediaQuery } from 'react-responsive';
 
 const UsersData = [
   { id: '7894', name: 'Livia Bator', role: 'CEO', img: user1 },
@@ -67,22 +69,24 @@ function QuickTransfer() {
           onClick={() => setSelected(user.id)}
         >
           <UserImage src={user.img} alt={user.name} />
-          <Label weight={selected === user.id ? 700 : 400} size="16px" color="#232323">
+          <UserName style={{fontWeight: selected === user.id ? 700 : 400}}>
             {user.name}
-          </Label>
-          <Label weight={selected === user.id ? 700 : 400} size="15px" color="#718EBF">
+          </UserName>
+          <UserRole style={{fontWeight: selected === user.id ? 700 : 400}}>
             {selected === user.id ? user.role.toUpperCase() : user.role}
-          </Label>
+          </UserRole>
         </UserCard>
       )),
     [selected]
   );
 
+  const isTablet = useMediaQuery({ minWidth: breakpoints.tablet })
+
   return (
     <Container>
-      <Label weight={600} size="22px" color="#343C6A">
+      <Heading>
         Quick Transfer
-      </Label>
+      </Heading>
       <ContentBox>
         <UsersSection>
           <StyledUserContainer ref={containerRef}>
@@ -94,7 +98,7 @@ function QuickTransfer() {
                 onClick={() => handleScroll('right')}
                 sx={BadgeStyle}
                 img={rightArrow}
-                size="50px"
+                size={isTablet ? "50px" : "40px"}
                 bg='whiite'
               />
             )}
@@ -103,22 +107,22 @@ function QuickTransfer() {
                 onClick={() => handleScroll('left')}
                 sx={BadgeStyle}
                 img={leftArrow}
-                size="50px"
+                size={isTablet ? "50px" : "40px"}
                 bg='white'
               />
             )}
           </ArrowContainer>
         </UsersSection>
         <SendSection>
-          <Label color="#718EBF" weight={400} size="16px">
+          <AmountLabel>
             Write Amount
-          </Label>
+          </AmountLabel>
           <AmountContainer>
             <Input placeholder="e.g. 505.5" />
             <SendButton>
-              <Label weight={500} size="16px" color="#FFFFFF">
+              <SendButtonText>
                 Send
-              </Label>
+              </SendButtonText>
               <SendIcon src={send} alt="Send" />
             </SendButton>
           </AmountContainer>
@@ -129,16 +133,41 @@ function QuickTransfer() {
 };
 
 const Container = styled.div`
-  width: 445px;
-  height: 323px;
+  width: 300px;
+  height: 229px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (min-width: ${breakpoints.tablet}) {
+        width: 445px;
+  height: 323px;
+      }
+`;
+
+const Heading = styled.label`
+font-size: 16px;
+font-weight: 600;
+color: #343C6A;
+
+@media (min-width: ${breakpoints.tablet}) {
+        font-size: 22px;
+      }
+`;
+
+const AmountLabel = styled.label`
+font-size: 12px;
+font-weight: 400;
+color: #343C6A;
+
+@media (min-width: ${breakpoints.tablet}) {
+        font-size: 22px;
+      }
 `;
 
 const ContentBox = styled.div`
   width: 100%;
-  height: 276px;
+  height: 195px;
   gap: 29px;
   overflow: hidden;
   background-color: white;
@@ -147,12 +176,21 @@ const ContentBox = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: ${breakpoints.tablet}) {
+        height: 276px;
+      }
 `;
 
 const UsersSection = styled.div`
+  width: 289px;
+  height: 93px;
+  display: flex;
+
+  @media (min-width: ${breakpoints.tablet}) {
   width: 394px;
   height: 127px;
-  display: flex;
+      }
 `;
 
 const StyledUserContainer = styled.div`
@@ -190,9 +228,32 @@ const UserCard = styled.div`
 `;
 
 const UserImage = styled.img`
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+
+  @media (min-width: ${breakpoints.tablet}) {
   width: 70px;
   height: 70px;
-  margin-bottom: 10px;
+      }
+`;
+
+const UserName = styled.label`
+font-size: 12px;
+color: #232323;
+
+@media (min-width: ${breakpoints.tablet}) {
+        font-size: 16px;
+      }
+`;
+
+const UserRole = styled.label`
+font-size: 12px;
+color: #718EBF;
+
+@media (min-width: ${breakpoints.tablet}) {
+        font-size: 15px;
+      }
 `;
 
 const ArrowContainer = styled.div`
@@ -206,35 +267,49 @@ const ArrowContainer = styled.div`
 `;
 
 const SendSection = styled.div`
-  width: 394px;
-  height: 50px;
+  width: 289px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (min-width: ${breakpoints.tablet}) {
+  width: 395px;
+        height: 50px;
+      }
 `;
 
 const AmountContainer = styled.div`
-  width: 265px;
+  width: 187px;
   height: 100%;
   background-color: #edf1f7;
   display: flex;
   border-radius: 50px;
   align-items: center;
   overflow: hidden;
+
+  @media (min-width: ${breakpoints.tablet}) {
+        width: 265px;
+      }
 `;
 
 const Input = styled.input`
-  width: 110px;
+  width: 67px;
   height: 90%;
   outline: none;
   border: none;
   background-color: transparent;
   padding: 0 15px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+        padding: 0 10px;
+        width: 110px;
+      }
 `;
 
 const SendButton = styled.div`
-  width: 125px;
-  height: 50px;
+  width: 100px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -243,16 +318,31 @@ const SendButton = styled.div`
   border-radius: 50px;
   cursor: pointer;
   box-shadow: 4px 4px 18px -2px #e7e4e8cc;
+
+  @media (min-width: ${breakpoints.tablet}) {
+        width: 125px;
+        height: 50px;
+      }
 `;
 
 const SendButtonText = styled.div`
-  display: flex;
-  align-items: center;
+  font-weight: 500; 
+  font-size: 13px; 
+  color: #FFFFFF;
+
+  @media (min-width: ${breakpoints.tablet}) {
+        font-size: 16px; 
+      }
 `;
 
 const SendIcon = styled.img`
-  width: 26px;
+  width: 16.11px;
+  height: 14px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+        width: 26px;
   height: 22.6px;
+      }
 `;
 
 const Badge = styled(CircularBadge)`

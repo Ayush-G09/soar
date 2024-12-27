@@ -4,7 +4,7 @@ import Label from '../components/Label';
 function CreditCards() {
   return (
     <StyledContainer>
-      <Label weight={500} size="30px" color="#232323">
+      <Label weight={500} sx={{fontSize: '30px'}} color="#232323">
         Credit Cards
       </Label>
     </StyledContainer>

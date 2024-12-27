@@ -5,39 +5,89 @@ import CircularBadge from "./CircularBadge";
 import notification from "../assets/notification.png";
 import setting from "../assets/settingsh.png";
 import SearchBox from "./SearchBox";
+import menu from "../assets/menu.png";
+import { breakpoints } from "../utils";
 
-function Header() {
+type Props = {
+  openSidebar: (e: boolean) => void;
+}
+
+function Header({openSidebar}: Props) {
   return (
     <StyledHeader>
-      <Label size="28px" weight={600} color="#343C6A">
-        Overview
-      </Label>
-      <ActionBar>
-        <SearchBox />
-        <CircularBadge bg="#F5F7FA" img={setting} />
-        <CircularBadge bg="#F5F7FA" img={notification} />
+      <div style={{display: 'flex', height: '100%', width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
+        <Menu src={menu} onClick={() => openSidebar(true)} />
+        <Label sx={{fontSize: '28px'}} weight={600} color="#343C6A">
+          Overview
+        </Label>
+        <ActionBar>
+          <SearchBox />
+          <CircularBadge bg="#F5F7FA" img={setting} />
+          <CircularBadge bg="#F5F7FA" img={notification} />
+        </ActionBar>
         <img src={user} style={{ width: "50px", height: "50px" }} />
-      </ActionBar>
+      </div>
+      <SecondarySearchbox>
+        <SearchBox/>
+      </SecondarySearchbox>
     </StyledHeader>
   );
 }
 
 const StyledHeader = styled.div`
   width: 100%;
-  height: 10%;
+  height: 20%;
   background-color: white;
   border-bottom: 1px solid #e6eff5;
   display: flex;
+  flex-direction: column;
   align-items: center;
   padding: 0 30px;
   justify-content: space-between;
   box-sizing: border-box;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 10%;
+  }
 `;
 
 const ActionBar = styled.div`
-  display: flex;
+  display: none;
   align-items: center;
   gap: 1.5rem;
+  margin-left: auto;
+  margin-right: 1.5rem;
+  
+  @media (min-width: ${breakpoints.tablet}) {
+    display: flex;
+  }
+`;
+
+const SecondarySearchbox = styled.div`
+display: flex;
+height: 100%;
+width: 100%;
+align-items: center;
+justify-content: center;
+
+@media (min-width: ${breakpoints.tablet}) {
+    display: none;
+  }
+`;
+
+const Menu = styled.img`
+  display: flex;
+  width: 25px;
+  height: 25px;
+  margin-right: 0px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    margin-right: 1.5rem;
+  }
+
+  @media (min-width: ${breakpoints.desktop}) {
+    display: none;
+  }
 `;
 
 export default Header;
