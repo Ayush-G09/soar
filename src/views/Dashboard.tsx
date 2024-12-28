@@ -1,9 +1,9 @@
-import RecentTransactions from "../components/Dashboard/RecentTransactions";
+import RecentTransactions from "../components/Dashboard/RecentTransaction/RecentTransactions";
 import WeeklyActivity from "../components/Dashboard/WeeklyActivity/WeeklyActivity";
 import styled from "styled-components";
 import ExpenseStatistics from "../components/Dashboard/ExpenseStatistics/ExpenseStatistics";
-import MyCards from "../components/Dashboard/MyCards";
-import QuickTransfer from "../components/Dashboard/QuickTransfer";
+import MyCards from "../components/Dashboard/MyCards/MyCards";
+import QuickTransfer from "../components/Dashboard/QuickTransfer/QuickTransfer";
 import BalanceHistory from "../components/Dashboard/BalanceHistory/BalanceHistory";
 import { breakpoints } from "../utils";
 

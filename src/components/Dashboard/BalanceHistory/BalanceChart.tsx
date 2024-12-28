@@ -2,7 +2,12 @@ import React from "react";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 
-const BalanceChart = () => {
+type Props = {
+  date: string[];
+  data: number[];
+};
+
+const BalanceChart = ({ date, data }: Props) => {
   const options: EChartsOption = {
     tooltip: {
       trigger: "axis",

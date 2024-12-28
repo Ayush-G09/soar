@@ -1,19 +1,18 @@
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 
-const ExpenseChart = () => {
+type Props = {
+  data: [];
+};
+
+const ExpenseChart = ({ data }: Props) => {
   const options: EChartsOption = {
     series: [
       {
         name: "Access From",
         type: "pie",
         radius: ["5%", "90%"],
-        data: [
-          { value: 30, name: "Entertainment", itemStyle: { color: "#343C6A" } },
-          { value: 15, name: "Bill Expense", itemStyle: { color: "#FC7900" } },
-          { value: 35, name: "Other", itemStyle: { color: "#232323" } },
-          { value: 20, name: "Investment", itemStyle: { color: "#396AFF" } },
-        ],
+        data: data,
         itemStyle: {
           borderWidth: 5,
           borderColor: "#fff",

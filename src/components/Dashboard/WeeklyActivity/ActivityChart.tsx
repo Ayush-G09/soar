@@ -1,7 +1,13 @@
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 
-const ActivityChart = () => {
+type Props = {
+  withdraw: number[];
+  deposit: number[];
+  days: string[];
+};
+
+const ActivityChart = ({ withdraw, days, deposit }: Props) => {
   const options: EChartsOption = {
     tooltip: {
       trigger: "axis",
@@ -21,7 +27,7 @@ const ActivityChart = () => {
     xAxis: [
       {
         type: "category",
-        data: ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
+        data: days,
         axisLine: { show: false },
         axisTick: { show: false },
       },
@@ -35,7 +41,7 @@ const ActivityChart = () => {
       {
         name: "Withdraw",
         type: "bar",
-        data: [480, 340, 320, 480, 150, 390, 400],
+        data: withdraw,
         itemStyle: {
           color: "#232323",
           borderRadius: [20, 20, 20, 20],
@@ -45,7 +51,7 @@ const ActivityChart = () => {
       {
         name: "Deposit",
         type: "bar",
-        data: [240, 130, 270, 380, 230, 230, 340],
+        data: deposit,
         itemStyle: {
           color: "#396AFF",
           borderRadius: [20, 20, 20, 20],
