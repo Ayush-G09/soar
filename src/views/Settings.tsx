@@ -3,9 +3,9 @@ import Label from "../components/Label";
 import { useState } from "react";
 import user from '../assets/user.svg';
 import edit from '../assets/edit.png';
-import { breakpoints } from "../utils";
 import InputField from "../components/Settings/InputField";
 import { useMediaQuery } from "react-responsive";
+import { breakpoints } from "../utils";
 
 type Option = "Edit Profile" | "Preferences" | "Security";
 
@@ -31,8 +31,8 @@ function Settings() {
             <Setting>
               <UserImgCon>
                 <div style={{width: '90px', height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative'}}>
-                  <img src={user} style={{width: '90px', height: '90px'}}/>
-                  <img src={edit} style={{width: '30px', height: '30px', position: 'absolute', bottom: 0, right: 0, cursor: 'pointer'}} />
+                  <img alt="user" src={user} style={{width: '90px', height: '90px'}}/>
+                  <img alt="edit" src={edit} style={{width: '30px', height: '30px', position: 'absolute', bottom: 0, right: 0, cursor: 'pointer'}} />
                 </div>
               </UserImgCon>
               <Grid>

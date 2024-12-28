@@ -6,26 +6,29 @@ import notification from "../assets/notification.png";
 import setting from "../assets/settingsh.png";
 import SearchBox from "./SearchBox";
 import menu from "../assets/menu.png";
-import { breakpoints } from "../utils";
+import { breakpoints, convertPathToTitle } from "../utils";
+import { useLocation } from "react-router-dom";
 
 type Props = {
   openSidebar: (e: boolean) => void;
 }
 
 function Header({openSidebar}: Props) {
+  const location = useLocation();
+  const title = convertPathToTitle(location.pathname);
   return (
     <StyledHeader>
       <div style={{display: 'flex', height: '100%', width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
         <Menu src={menu} onClick={() => openSidebar(true)} />
         <Label size='28px' weight={600} color="#343C6A">
-          Overview
+          {title}
         </Label>
         <ActionBar>
           <SearchBox />
           <CircularBadge bg="#F5F7FA" img={setting} />
           <CircularBadge bg="#F5F7FA" img={notification} />
         </ActionBar>
-        <img src={user} style={{ width: "50px", height: "50px" }} />
+        <img alt="user" src={user} style={{ width: "50px", height: "50px" }} />
       </div>
       <SecondarySearchbox>
         <SearchBox/>
