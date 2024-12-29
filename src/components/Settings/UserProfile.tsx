@@ -455,6 +455,9 @@ function UserProfile() {
           {!state.loading && (
             <Button
               onClick={() => setState((prev) => ({ ...prev, editing: false }))}
+              aria-label="Cancel editing"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === "Enter" && setState((prev) => ({ ...prev, editing: false }))}
             >
               <Label weight={500} size="18px" color="white">
                 Cancel
@@ -467,6 +470,9 @@ function UserProfile() {
               backgroundColor: "#232323",
             }}
             onClick={handleSave}
+            aria-label="Save profile"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && handleSave()}
           >
             {state.loading ? (
               <MoonLoader color="white" size={20} />
@@ -483,6 +489,9 @@ function UserProfile() {
             backgroundColor: "#232323",
           }}
           onClick={() => setState((prev) => ({ ...prev, editing: true }))}
+          aria-label="Edit profile"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === "Enter" && setState((prev) => ({ ...prev, editing: true }))}
         >
           <Label weight={500} size="18px" color="white">
             Edit

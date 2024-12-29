@@ -7,6 +7,8 @@ type Props = {
   iconSize?: string;
   sx?: React.CSSProperties;
   onClick?: () => void;
+  role?: string;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
 };
 
 function CircularBadge({
@@ -16,9 +18,11 @@ function CircularBadge({
   iconSize = "20px",
   sx,
   onClick,
+  role,
+  onKeyDown
 }: Props) {
   return (
-    <StyledCircularBadge $bg={bg} $size={size} style={sx} onClick={onClick}>
+    <StyledCircularBadge $bg={bg} $size={size} style={sx} role={role} tabIndex={role ? 0 : undefined} onClick={onClick} onKeyDown={onKeyDown}>
       <StyledImage src={img} $iconSize={iconSize} />
     </StyledCircularBadge>
   );

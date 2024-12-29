@@ -8,9 +8,10 @@ type Props = {
   color: string;
   sx?: CSSProperties;
   click?: () => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
 };
 
-function Label({ children, size, weight, color, sx, click }: Props) {
+function Label({ children, size, weight, color, sx, click, onKeyDown }: Props) {
   return (
     <StyledLabel
       onClick={click}
@@ -18,6 +19,8 @@ function Label({ children, size, weight, color, sx, click }: Props) {
       $weight={weight}
       $color={color}
       style={sx}
+      onKeyDown={onKeyDown}
+      tabIndex={click || onKeyDown ? 0 : undefined}
     >
       {children}
     </StyledLabel>

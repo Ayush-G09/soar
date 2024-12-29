@@ -102,7 +102,18 @@ const SidebarItem = memo(({ item }: { item: SidebarItemType }) => {
   const active = isActivePath(location.pathname, item.path);
 
   return (
-    <StyledSidebarItem onClick={() => navigate(item.path)}>
+    <StyledSidebarItem
+      onClick={() => navigate(item.path)}
+      role="button"
+      tabIndex={0}
+      aria-label={`Navigate to ${item.title}`}
+      aria-current={active ? "page" : undefined}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          navigate(item.path);
+        }
+      }}
+    >
       <StyledIcon src={active ? item.nImg : item.sImg} />
       <Label color={active ? "#232323" : "#b1b1b1"} weight={500} size="15px">
         {item.title}
@@ -151,7 +162,10 @@ function Sidebar({ opened, closeSidebar }: Props) {
   );
 }
 
-const StyledSidebar = styled(motion.div)`
+const StyledSidebar = styled(motion.div).attrs(() => ({
+  role: "navigation",
+  "aria-label": "Sidebar navigation",
+}))`
   width: 250px;
   height: 100%;
   display: flex;
@@ -198,6 +212,12 @@ const StyledSidebarItem = styled.div`
 
   &:hover {
     background-color: #f0f0f0;
+  }
+
+  &:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+    background-color: #e6eff5;
   }
 `;
 

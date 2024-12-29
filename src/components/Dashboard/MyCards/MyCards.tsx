@@ -143,6 +143,10 @@ function MyCards() {
         {!state.loading && state.cardsData.length ? (
           <Label
             click={() => setSeeAll(!seeAll)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") setSeeAll(!seeAll);
+            }}
+            aria-label={seeAll ? "Show less cards" : "See all cards"}
             sx={{ cursor: "pointer", marginTop: "5px" }}
             color="#343C6A"
             size="15px"

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import magnifyingGlass from "../assets/magnifying-glass.png";
+import { breakpoints } from "../utils";
 
 function SearchBox() {
   return (
@@ -16,10 +17,14 @@ const StyledSearchBox = styled.div`
   display: flex;
   align-items: center;
   background: #f5f7fa;
-  height: 40px;
+  height: 50px;
   border-radius: 40px;
   width: 255px;
   overflow: hidden;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 40px;
+  }
 `;
 
 const StyledIconWrapper = styled.div`

@@ -212,6 +212,9 @@ function QuickTransfer() {
                   img={rightArrow}
                   size="50px"
                   bg="white"
+                  role="button"
+                  aria-label="Scroll to the right"
+                  onKeyDown={(e) => e.key === "Enter" && handleScroll("right")}
                 />
               )}
               {!state.isScrollStart && (
@@ -221,6 +224,9 @@ function QuickTransfer() {
                   img={leftArrow}
                   size="50px"
                   bg="white"
+                  role="button"
+                  aria-label="Scroll to the left"
+                  onKeyDown={(e) => e.key === "Enter" && handleScroll("left")}
                 />
               )}
             </ArrowContainer>
@@ -248,7 +254,7 @@ function QuickTransfer() {
                   value={state.amount.value ? state.amount.value : ""}
                   placeholder="e.g. 505.5"
                 />
-                <SendButton onClick={handleSend}>
+                <SendButton tabIndex={0} onClick={handleSend} onKeyDown={(e) => e.key === "Enter" && handleSend()}>
                   {state.sendingTrx ? (
                     <MoonLoader color="white" size={20} />
                   ) : (
