@@ -10,3 +10,15 @@ export function convertPathToTitle(path: string) {
   }
   return path;
 }
+
+export function generateRandomId() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+export function getFormattedDate() {
+  const today = new Date();
+  const day = today.getDate();
+  const month = today.toLocaleString('default', { month: 'long' });
+  const year = today.getFullYear();
+  return `${day} ${month} ${year}`;
+}

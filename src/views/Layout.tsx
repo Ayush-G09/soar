@@ -2,8 +2,9 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { breakpoints } from "../utils";
+import Notifications from "../components/Notifications";
 
 function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
@@ -11,12 +12,10 @@ function Layout() {
   const toggleSidebar = (e: boolean) => {
     setIsSidebarOpen(e);
   };
-
-  useEffect(() => {
-    console.log({isSidebarOpen})
-  }, [isSidebarOpen]);
+  
   return (
     <StyledLayout>
+      <Notifications />
       <Sidebar opened={isSidebarOpen} closeSidebar={(e: boolean) => toggleSidebar(e)} />
       <ContentArea>
         <Header openSidebar={(e: boolean) => toggleSidebar(e)} />

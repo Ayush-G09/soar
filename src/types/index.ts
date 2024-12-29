@@ -12,7 +12,7 @@ export type TransactionType = {
   badgeType: "deposit" | "paypal" | "dollar";
   title: string;
   date: string;
-  amount: string;
+  amount: number;
 };
 
 export type UserType = {
@@ -28,4 +28,10 @@ export type SidebarItemType = {
   sImg: string;
   title: string;
   path: string;
+};
+
+export type Card = {
+  msg: string;
+  type: "error" | "success";
+  id: number;
 };

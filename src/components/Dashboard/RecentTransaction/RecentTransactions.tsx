@@ -7,6 +7,8 @@ import Paypal from "../../../assets/paypal.png";
 import { TransactionType } from "../../../types";
 import RecentTransactionLoading from "./Loading";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 type State = {
   loading: boolean;
@@ -19,8 +21,8 @@ const badgeLookup = {
   dollar: { img: Dollar, bg: "#DCFAF8" },
 };
 
-const getAmountColor = (amount: string) =>
-  amount.includes("-") ? "#FF4B4A" : "#41D4A8";
+const getAmountColor = (amount: number) =>
+  amount < 0 ? "#FF4B4A" : "#41D4A8";
 
 const RecentTransactions = () => {
   const [state, setState] = useState<State>({
@@ -28,34 +30,14 @@ const RecentTransactions = () => {
     data: [],
   });
 
+  const transactions = useSelector((state: RootState) => state.transactions);
+
   const mockApi = () => {
     return new Promise((resolve) => {
       const delay = Math.random() * 3000 + 500;
       setTimeout(() => {
         resolve({
-          data: [
-            {
-              id: "4568",
-              badgeType: "deposit",
-              title: "Deposit from my Card",
-              date: "28 January 2021",
-              amount: "-$850",
-            },
-            {
-              id: "4569",
-              badgeType: "paypal",
-              title: "Deposit Paypal",
-              date: "25 January 2021",
-              amount: "+$2,500",
-            },
-            {
-              id: "4570",
-              badgeType: "dollar",
-              title: "Jemi Wilson",
-              date: "21 January 2021",
-              amount: "+$5,400",
-            },
-          ],
+          data: transactions,
         });
       }, delay);
     });
@@ -76,7 +58,7 @@ const RecentTransactions = () => {
       .finally(() => {
         setState((prev) => ({ ...prev, loading: false }));
       });
-  }, []);
+  }, [transactions]);
 
   return (
     <Container>
@@ -86,8 +68,9 @@ const RecentTransactions = () => {
       {state.loading ? (
         <RecentTransactionLoading />
       ) : (
-        <TransactionList>
-          {state.data.map((data) => (
+        <TransactionCon>
+          <Transactions>
+          {state.data.slice().reverse().map((data) => (
             <TransactionItem key={data.id}>
               <CircularBadge
                 size="50px"
@@ -109,11 +92,12 @@ const RecentTransactions = () => {
                 color={getAmountColor(data.amount)}
                 sx={{ marginLeft: "auto" }}
               >
-                {data.amount}
+                {`${data.amount.toLocaleString('en-IN')}$`}
               </Label>
             </TransactionItem>
           ))}
-        </TransactionList>
+          </Transactions>
+        </TransactionCon>
       )}
     </Container>
   );
@@ -127,7 +111,7 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-const TransactionList = styled.div`
+const TransactionCon = styled.div`
   width: 100%;
   height: 235px;
   display: flex;
@@ -136,7 +120,25 @@ const TransactionList = styled.div`
   border-radius: 25px;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+`;
+
+const Transactions = styled.div`
+width: 100%;
+height: 170px;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 10px;
+overflow: hidden;
+overflow-y: scroll;
+
+scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
 `;
 
 const TransactionItem = styled.div`

@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import Label from '../../Label';
-import user1 from '../../../assets/user1.svg';
-import user2 from '../../../assets/user2.svg';
-import user3 from '../../../assets/user3.png';
 import styled from 'styled-components';
-import { UserType } from '../../../types';
+import { TransactionType, UserType } from '../../../types';
 import CircularBadge from '../../CircularBadge';
 import rightArrow from '../../../assets/right-arrow.png';
 import leftArrow from '../../../assets/left-arrow.png';
 import send from '../../../assets/Send.png';
 import QuickTransferLoading from './Loading';
+import { generateRandomId, getFormattedDate } from '../../../utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { addTransaction } from '../../../store/transactionsSlice';
+import { addCard, deleteCard } from '../../../store/notificationsSlice';
+import { MoonLoader } from 'react-spinners';
 
 type State = {
   loading: boolean;
@@ -17,6 +20,8 @@ type State = {
   selected: string;
   isScrollStart: boolean;
   isScrollEnd: boolean;
+  amount: {value: number, error: string};
+  sendingTrx: boolean;
 };
 
 function QuickTransfer() {
@@ -26,7 +31,11 @@ function QuickTransfer() {
     selected: '',
     isScrollStart: true,
     isScrollEnd: false,
+    amount: {value: 0, error: ''},
+    sendingTrx: false,
   });
+  const users = useSelector((state: RootState) => state.users);
+  const dispatch = useDispatch();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const handleScroll = (direction: 'left' | 'right') => {
@@ -88,13 +97,7 @@ function QuickTransfer() {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
-          data: [
-            { id: '7894', name: 'Livia Bator', role: 'CEO', img: user1 },
-            { id: '7895', name: 'Randy Press', role: 'Director', img: user3 },
-            { id: '7896', name: 'Workman', role: 'Designer', img: user2 },
-            { id: '7897', name: 'Alex Voo', role: 'Workman', img: user1 },
-            { id: '7898', name: 'John Cena', role: 'Workman', img: user3 },
-          ],
+          data: users,
         });
       }, delay);
     });
@@ -116,6 +119,50 @@ function QuickTransfer() {
         setState((prev) => ({ ...prev, loading: false }));
       });
   }, []);
+
+  const handleAddNotificationCard = (type: "success" | "error", msg: string) => {
+    const id = Date.now();
+
+    dispatch(
+      addCard({
+        msg: msg,
+        type: type,
+        id,
+      })
+    );
+
+    setTimeout(() => {
+      dispatch(deleteCard(id));
+    }, 5000);
+  };
+
+  const handleSend = () => {
+    if(state.sendingTrx){
+      return;
+    }
+
+    if(!state.amount.value){
+      setState((prev) => ({...prev, amount: {...prev.amount, error: 'Amount required'}}));
+      return;
+    }else{
+      setState((prev) => ({...prev, amount: {...prev.amount, error: ''}}));
+    }
+
+    if(!state.selected){
+      handleAddNotificationCard("error", "Select the user to which amount is to be transfered.");
+      return;
+    }
+
+    const data = {id: generateRandomId(), badgeType: 'dollar', title: users.find((user) => user.id ===  state.selected)?.name, date: getFormattedDate(), amount: -state.amount.value} as TransactionType;
+    setState((prev) => ({...prev, sendingTrx: true}));
+
+    setTimeout(() => {
+      dispatch(addTransaction(data));
+      setState((prev) => ({...prev, amount: {...prev.amount, value: 0}, sendingTrx: false}));
+      handleAddNotificationCard("success", "Transaction successfull !");
+    }, 1500);
+
+  };
 
   return (
     <Container>
@@ -149,20 +196,23 @@ function QuickTransfer() {
               )}
             </ArrowContainer>
           </UsersSection>
+          <div>
           <SendSection>
             <Label color="#718EBF" weight={400} size="16px">
               Write Amount
             </Label>
-            <AmountContainer>
-              <Input placeholder="e.g. 505.5" />
-              <SendButton>
-                <Label weight={500} size="16px" color="#FFFFFF">
+            <AmountContainer style={{border: state.amount.error ? '1px solid red' : 'none'}}>
+              <Input onChange={(e) => setState((prev) => ({...prev, amount: {...prev.amount, value: parseInt(e.target.value)}}))} value={state.amount.value ? state.amount.value : ''} placeholder="e.g. 505.5" />
+              <SendButton onClick={handleSend}>
+                {state.sendingTrx ? <MoonLoader color='white' size={20} /> : <><Label weight={500} size="16px" color="#FFFFFF">
                   Send
                 </Label>
-                <SendIcon src={send} alt="Send" />
+                <SendIcon src={send} alt="Send" /></>}
               </SendButton>
             </AmountContainer>
           </SendSection>
+          {state.amount.error && <Label sx={{marginLeft: 'auto', marginTop: '10px', width: 'fit-content'}} color='red' weight={500} size='0.7rem'>{state.amount.error}</Label>}
+          </div>
         </ContentBox>
       )}
     </Container>
@@ -270,7 +320,7 @@ const Input = styled.input`
   outline: none;
   border: none;
   background-color: transparent;
-  padding: 0 10px;
+  padding: 0 20px;
 `;
 
 const SendButton = styled.div`
