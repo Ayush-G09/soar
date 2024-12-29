@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Label from "./Label";
-import user from "../assets/user.svg";
 import CircularBadge from "./CircularBadge";
 import notification from "../assets/notification.png";
 import setting from "../assets/settingsh.png";
@@ -8,6 +7,8 @@ import SearchBox from "./SearchBox";
 import menu from "../assets/menu.png";
 import { breakpoints, convertPathToTitle } from "../utils";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 type Props = {
   openSidebar: (e: boolean) => void;
@@ -16,6 +17,7 @@ type Props = {
 function Header({openSidebar}: Props) {
   const location = useLocation();
   const title = convertPathToTitle(location.pathname);
+  const { userData } = useSelector((state: RootState) => state.userProfile);
   return (
     <StyledHeader>
       <div style={{display: 'flex', height: '100%', width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -28,7 +30,7 @@ function Header({openSidebar}: Props) {
           <CircularBadge bg="#F5F7FA" img={setting} />
           <CircularBadge bg="#F5F7FA" img={notification} />
         </ActionBar>
-        <img alt="user" src={user} style={{ width: "50px", height: "50px" }} />
+        <img alt="user" src={userData.img} style={{ width: "50px", height: "50px", borderRadius: '50%'}} />
       </div>
       <SecondarySearchbox>
         <SearchBox/>
