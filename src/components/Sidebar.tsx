@@ -95,9 +95,8 @@ const isActivePath = (currentPath: string, itemPath: string): boolean => {
   return currentPath === itemPath;
 };
 
-const SidebarItem = memo(({ item }: { item: SidebarItemType }) => {
+const SidebarItem = memo(({ item, navigate }: { item: SidebarItemType, navigate: (path: string) => void }) => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const active = isActivePath(location.pathname, item.path);
 
@@ -125,6 +124,14 @@ const SidebarItem = memo(({ item }: { item: SidebarItemType }) => {
 function Sidebar({ opened, closeSidebar }: Props) {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const isDesktop = useMediaQuery({ minWidth: breakpoints.desktop });
+  const navigate = useNavigate();
+
+  const handleNavigate = (path: string) => {
+    if(!isDesktop){
+      closeSidebar(false);
+    }
+    navigate(path);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -156,7 +163,7 @@ function Sidebar({ opened, closeSidebar }: Props) {
         </Label>
       </StyledHeader>
       {SidebarItems.map((item) => (
-        <SidebarItem key={item.id} item={item} />
+        <SidebarItem navigate={handleNavigate} key={item.id} item={item} />
       ))}
     </StyledSidebar>
   );
@@ -212,12 +219,6 @@ const StyledSidebarItem = styled.div`
 
   &:hover {
     background-color: #f0f0f0;
-  }
-
-  &:focus {
-    outline: 2px solid #007bff;
-    outline-offset: 2px;
-    background-color: #e6eff5;
   }
 `;
 

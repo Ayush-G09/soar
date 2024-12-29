@@ -6,7 +6,7 @@ const initialState = {
     name: "Charlene Reed",
     userName: "Charlene Reed",
     email: "charlenereed@gmail.com",
-    password: "123456789",
+    password: "Charle@999",
     dob: "25 January 1990",
     presentAddress: "San Jose, California, USA",
     permanentAddress: "San Jose, California, USA",

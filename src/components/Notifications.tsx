@@ -81,7 +81,7 @@ const NotificationsOverlay = styled.div`
 
 const StyledCard = styled.div<{ type: "error" | "success" }>`
   display: flex;
-  max-width: 50%;
+  max-width: 90%;
   min-width: 10%;
   background-color: ${(p) => (p.type === "error" ? "#f8c0bf" : "#C4EC94")};
   border-radius: 10px;

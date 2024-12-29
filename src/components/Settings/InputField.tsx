@@ -50,7 +50,7 @@ function InputField({ title, type, value, onChange, disabled, error }: Props) {
             disabled={disabled}
             customInput={
               <StyledInput
-                type="date"
+                type="text"
                 disabled={disabled}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
