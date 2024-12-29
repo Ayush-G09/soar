@@ -1,18 +1,18 @@
-import { useEffect, useRef, useState, useMemo } from 'react';
-import Label from '../../Label';
-import styled from 'styled-components';
-import { TransactionType, UserType } from '../../../types';
-import CircularBadge from '../../CircularBadge';
-import rightArrow from '../../../assets/right-arrow.png';
-import leftArrow from '../../../assets/left-arrow.png';
-import send from '../../../assets/Send.png';
-import QuickTransferLoading from './Loading';
-import { generateRandomId, getFormattedDate } from '../../../utils';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import { addTransaction } from '../../../store/transactionsSlice';
-import { addCard, deleteCard } from '../../../store/notificationsSlice';
-import { MoonLoader } from 'react-spinners';
+import { useEffect, useRef, useState, useMemo } from "react";
+import Label from "../../Label";
+import styled from "styled-components";
+import { TransactionType, UserType } from "../../../types";
+import CircularBadge from "../../CircularBadge";
+import rightArrow from "../../../assets/right-arrow.png";
+import leftArrow from "../../../assets/left-arrow.png";
+import send from "../../../assets/Send.png";
+import QuickTransferLoading from "./Loading";
+import { generateRandomId, getFormattedDate } from "../../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import { addTransaction } from "../../../store/transactionsSlice";
+import { addCard, deleteCard } from "../../../store/notificationsSlice";
+import { MoonLoader } from "react-spinners";
 
 type State = {
   loading: boolean;
@@ -20,7 +20,7 @@ type State = {
   selected: string;
   isScrollStart: boolean;
   isScrollEnd: boolean;
-  amount: {value: number, error: string};
+  amount: { value: number; error: string };
   sendingTrx: boolean;
 };
 
@@ -28,25 +28,26 @@ function QuickTransfer() {
   const [state, setState] = useState<State>({
     loading: false,
     data: [],
-    selected: '',
+    selected: "",
     isScrollStart: true,
     isScrollEnd: false,
-    amount: {value: 0, error: ''},
+    amount: { value: 0, error: "" },
     sendingTrx: false,
   });
   const users = useSelector((state: RootState) => state.users);
   const dispatch = useDispatch();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const handleScroll = (direction: 'left' | 'right') => {
+  const handleScroll = (direction: "left" | "right") => {
     if (containerRef.current) {
       const childWidth = containerRef.current.firstChild
         ? (containerRef.current.firstChild as HTMLElement).offsetWidth
         : 0;
-      const scrollAmount = direction === 'left' ? -(childWidth + 12) : childWidth + 12;
+      const scrollAmount =
+        direction === "left" ? -(childWidth + 12) : childWidth + 12;
       containerRef.current.scrollBy({
         left: scrollAmount,
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     }
   };
@@ -65,12 +66,12 @@ function QuickTransfer() {
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
-      container.addEventListener('scroll', checkScrollPosition);
+      container.addEventListener("scroll", checkScrollPosition);
       checkScrollPosition();
     }
     return () => {
       if (container) {
-        container.removeEventListener('scroll', checkScrollPosition);
+        container.removeEventListener("scroll", checkScrollPosition);
       }
     };
   }, [state.data]);
@@ -82,10 +83,18 @@ function QuickTransfer() {
         onClick={() => setState((prev) => ({ ...prev, selected: user.id }))}
       >
         <UserImage src={user.img} alt={user.name} />
-        <Label weight={state.selected === user.id ? 700 : 400} size="16px" color="#232323">
+        <Label
+          weight={state.selected === user.id ? 700 : 400}
+          size="16px"
+          color="#232323"
+        >
           {user.name}
         </Label>
-        <Label weight={state.selected === user.id ? 700 : 400} size="15px" color="#718EBF">
+        <Label
+          weight={state.selected === user.id ? 700 : 400}
+          size="15px"
+          color="#718EBF"
+        >
           {state.selected === user.id ? user.role.toUpperCase() : user.role}
         </Label>
       </UserCard>
@@ -113,14 +122,17 @@ function QuickTransfer() {
         }));
       })
       .catch((err) => {
-        console.error('Error fetching data:', err);
+        console.error("Error fetching data:", err);
       })
       .finally(() => {
         setState((prev) => ({ ...prev, loading: false }));
       });
   }, []);
 
-  const handleAddNotificationCard = (type: "success" | "error", msg: string) => {
+  const handleAddNotificationCard = (
+    type: "success" | "error",
+    msg: string
+  ) => {
     const id = Date.now();
 
     dispatch(
@@ -137,31 +149,46 @@ function QuickTransfer() {
   };
 
   const handleSend = () => {
-    if(state.sendingTrx){
+    if (state.sendingTrx) {
       return;
     }
 
-    if(!state.amount.value){
-      setState((prev) => ({...prev, amount: {...prev.amount, error: 'Amount required'}}));
+    if (!state.amount.value) {
+      setState((prev) => ({
+        ...prev,
+        amount: { ...prev.amount, error: "Amount required" },
+      }));
       return;
-    }else{
-      setState((prev) => ({...prev, amount: {...prev.amount, error: ''}}));
+    } else {
+      setState((prev) => ({ ...prev, amount: { ...prev.amount, error: "" } }));
     }
 
-    if(!state.selected){
-      handleAddNotificationCard("error", "Select the user to which amount is to be transfered.");
+    if (!state.selected) {
+      handleAddNotificationCard(
+        "error",
+        "Select the user to which amount is to be transfered."
+      );
       return;
     }
 
-    const data = {id: generateRandomId(), badgeType: 'dollar', title: users.find((user) => user.id ===  state.selected)?.name, date: getFormattedDate(), amount: -state.amount.value} as TransactionType;
-    setState((prev) => ({...prev, sendingTrx: true}));
+    const data = {
+      id: generateRandomId(),
+      badgeType: "dollar",
+      title: users.find((user) => user.id === state.selected)?.name,
+      date: getFormattedDate(),
+      amount: -state.amount.value,
+    } as TransactionType;
+    setState((prev) => ({ ...prev, sendingTrx: true }));
 
     setTimeout(() => {
       dispatch(addTransaction(data));
-      setState((prev) => ({...prev, amount: {...prev.amount, value: 0}, sendingTrx: false}));
+      setState((prev) => ({
+        ...prev,
+        amount: { ...prev.amount, value: 0 },
+        sendingTrx: false,
+      }));
       handleAddNotificationCard("success", "Transaction successfull !");
     }, 1500);
-
   };
 
   return (
@@ -174,11 +201,13 @@ function QuickTransfer() {
       ) : (
         <ContentBox>
           <UsersSection>
-            <StyledUserContainer ref={containerRef}>{usersList}</StyledUserContainer>
+            <StyledUserContainer ref={containerRef}>
+              {usersList}
+            </StyledUserContainer>
             <ArrowContainer>
               {!state.isScrollEnd && (
                 <CircularBadge
-                  onClick={() => handleScroll('right')}
+                  onClick={() => handleScroll("right")}
                   sx={BadgeStyle}
                   img={rightArrow}
                   size="50px"
@@ -187,7 +216,7 @@ function QuickTransfer() {
               )}
               {!state.isScrollStart && (
                 <CircularBadge
-                  onClick={() => handleScroll('left')}
+                  onClick={() => handleScroll("left")}
                   sx={BadgeStyle}
                   img={leftArrow}
                   size="50px"
@@ -197,27 +226,62 @@ function QuickTransfer() {
             </ArrowContainer>
           </UsersSection>
           <div>
-          <SendSection>
-            <Label color="#718EBF" weight={400} size="16px">
-              Write Amount
-            </Label>
-            <AmountContainer style={{border: state.amount.error ? '1px solid red' : 'none'}}>
-              <Input onChange={(e) => setState((prev) => ({...prev, amount: {...prev.amount, value: parseInt(e.target.value)}}))} value={state.amount.value ? state.amount.value : ''} placeholder="e.g. 505.5" />
-              <SendButton onClick={handleSend}>
-                {state.sendingTrx ? <MoonLoader color='white' size={20} /> : <><Label weight={500} size="16px" color="#FFFFFF">
-                  Send
-                </Label>
-                <SendIcon src={send} alt="Send" /></>}
-              </SendButton>
-            </AmountContainer>
-          </SendSection>
-          {state.amount.error && <Label sx={{marginLeft: 'auto', marginTop: '10px', width: 'fit-content'}} color='red' weight={500} size='0.7rem'>{state.amount.error}</Label>}
+            <SendSection>
+              <Label color="#718EBF" weight={400} size="16px">
+                Write Amount
+              </Label>
+              <AmountContainer
+                style={{
+                  border: state.amount.error ? "1px solid red" : "none",
+                }}
+              >
+                <Input
+                  onChange={(e) =>
+                    setState((prev) => ({
+                      ...prev,
+                      amount: {
+                        ...prev.amount,
+                        value: parseInt(e.target.value),
+                      },
+                    }))
+                  }
+                  value={state.amount.value ? state.amount.value : ""}
+                  placeholder="e.g. 505.5"
+                />
+                <SendButton onClick={handleSend}>
+                  {state.sendingTrx ? (
+                    <MoonLoader color="white" size={20} />
+                  ) : (
+                    <>
+                      <Label weight={500} size="16px" color="#FFFFFF">
+                        Send
+                      </Label>
+                      <SendIcon src={send} alt="Send" />
+                    </>
+                  )}
+                </SendButton>
+              </AmountContainer>
+            </SendSection>
+            {state.amount.error && (
+              <Label
+                sx={{
+                  marginLeft: "auto",
+                  marginTop: "10px",
+                  width: "fit-content",
+                }}
+                color="red"
+                weight={500}
+                size="0.7rem"
+              >
+                {state.amount.error}
+              </Label>
+            )}
           </div>
         </ContentBox>
       )}
     </Container>
   );
-};
+}
 
 const Container = styled.div`
   width: 445px;
@@ -334,6 +398,17 @@ const SendButton = styled.div`
   border-radius: 50px;
   cursor: pointer;
   box-shadow: 4px 4px 18px -2px #e7e4e8cc;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+
+  &:hover {
+    background-color: #1a1a1a;
+    box-shadow: 6px 6px 20px -1px #dcdce1;
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 2px 2px 12px -1px #b0afaf;
+  }
 `;
 
 const SendIcon = styled.img`
@@ -342,9 +417,9 @@ const SendIcon = styled.img`
 `;
 
 const BadgeStyle = {
-  boxShadow: '4px 4px 18px -2px #E7E4E8CC',
-  cursor: 'pointer',
-  bg: 'white',
+  boxShadow: "4px 4px 18px -2px #E7E4E8CC",
+  cursor: "pointer",
+  bg: "white",
 };
 
 export default QuickTransfer;
