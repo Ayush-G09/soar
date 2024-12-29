@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import Label from "../components/Label";
 import { useState } from "react";
-import InputField from "../components/Settings/InputField";
 import { useMediaQuery } from "react-responsive";
 import { breakpoints } from "../utils";
 import UserProfile from "../components/Settings/UserProfile";
+import Preferences from "../components/Settings/Preferences";
+import Security from "../components/Settings/Security";
 
 type Option = "Edit Profile" | "Preferences" | "Security";
 
@@ -27,14 +28,10 @@ function Settings() {
           </div>
           {selected === 'Edit Profile' && <UserProfile/> }
           {selected === 'Preferences' && 
-            <div style={{width: '100%', height: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-              <Label color="black" weight={500} size="20px">Preferences</Label>
-            </div>
+            <Preferences/>
           }
           {selected === 'Security' && 
-            <div style={{width: '100%', height: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-              <Label color="black" weight={500} size="20px">Security</Label>
-            </div>
+            <Security/>
           }
         </div>
       </Container>
