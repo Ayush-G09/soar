@@ -104,7 +104,7 @@ const SidebarItem = memo(({ item }: { item: SidebarItemType }) => {
   return (
     <StyledSidebarItem onClick={() => navigate(item.path)}>
       <StyledIcon src={active ? item.nImg : item.sImg} />
-      <Label color={active ? "#232323" : "#b1b1b1"} weight={500} size='15px'>
+      <Label color={active ? "#232323" : "#b1b1b1"} weight={500} size="15px">
         {item.title}
       </Label>
     </StyledSidebarItem>
@@ -112,12 +112,15 @@ const SidebarItem = memo(({ item }: { item: SidebarItemType }) => {
 });
 
 function Sidebar({ opened, closeSidebar }: Props) {
-    const sidebarRef = useRef<HTMLDivElement | null>(null);
-    const isDesktop = useMediaQuery({ minWidth: breakpoints.desktop })
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const isDesktop = useMediaQuery({ minWidth: breakpoints.desktop });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
         closeSidebar(false);
       }
     };
@@ -137,7 +140,7 @@ function Sidebar({ opened, closeSidebar }: Props) {
     >
       <StyledHeader>
         <StyledLogo src={taskFill} />
-        <Label weight={700} size='25px' color="#343C6A">
+        <Label weight={700} size="25px" color="#343C6A">
           Soar Task
         </Label>
       </StyledHeader>

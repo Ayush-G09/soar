@@ -293,57 +293,17 @@ function UserProfile() {
     <>
       <Setting>
         <UserImgCon>
-          <div
-            style={{
-              width: "90px",
-              height: "90px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "relative",
-            }}
-          >
-            <img
-              alt="user"
-              src={state.img.value}
-              style={{
-                width: "90px",
-                height: "90px",
-                borderRadius: "50%",
-                objectFit: "cover",
-              }}
-            />
+          <ImageWrapper>
+            <UserImage alt="user" src={state.img.value} />
             <>
               {state.img.updating ? (
-                <div
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "black",
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    cursor: "pointer",
-                    borderRadius: "50%",
-                  }}
-                >
+                <LoaderWrapper>
                   <MoonLoader size={15} color="white" />
-                </div>
+                </LoaderWrapper>
               ) : (
-                <img
+                <EditImageIcon
                   alt="edit"
                   src={edit}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    cursor: "pointer",
-                  }}
                   onClick={triggerFileInput}
                 />
               )}
@@ -355,7 +315,7 @@ function UserProfile() {
                 style={{ display: "none" }}
               />
             </>
-          </div>
+          </ImageWrapper>
         </UserImgCon>
         <Grid>
           <InputField
@@ -593,6 +553,45 @@ const Button = styled.div`
     transform: scale(0.95);
     box-shadow: 2px 2px 12px -1px #b0afaf;
   }
+`;
+
+const ImageWrapper = styled.div`
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+`;
+
+const UserImage = styled.img`
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+`;
+
+const LoaderWrapper = styled.div`
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+  border-radius: 50%;
+`;
+
+const EditImageIcon = styled.img`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
 `;
 
 export default UserProfile;

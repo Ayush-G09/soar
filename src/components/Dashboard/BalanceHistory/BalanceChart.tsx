@@ -22,7 +22,7 @@ const BalanceChart = ({ date, data }: Props) => {
     xAxis: {
       type: "category",
       boundaryGap: false,
-      data: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"],
+      data: date,
       splitLine: {
         show: true,
         lineStyle: {
@@ -50,7 +50,7 @@ const BalanceChart = ({ date, data }: Props) => {
     },
     series: [
       {
-        data: [150, 400, 450, 780, 220, 550, 600],
+        data: data,
         type: "line",
         smooth: true,
         lineStyle: {

@@ -4,7 +4,7 @@ import Label from "../components/Label";
 function Loans() {
   return (
     <StyledContainer>
-      <Label weight={500} size='30px' color="#232323">
+      <Label weight={500} size="30px" color="#232323">
         Loans
       </Label>
     </StyledContainer>

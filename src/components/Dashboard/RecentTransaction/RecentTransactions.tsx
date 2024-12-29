@@ -21,8 +21,7 @@ const badgeLookup = {
   dollar: { img: Dollar, bg: "#DCFAF8" },
 };
 
-const getAmountColor = (amount: number) =>
-  amount < 0 ? "#FF4B4A" : "#41D4A8";
+const getAmountColor = (amount: number) => (amount < 0 ? "#FF4B4A" : "#41D4A8");
 
 const RecentTransactions = () => {
   const [state, setState] = useState<State>({
@@ -70,32 +69,35 @@ const RecentTransactions = () => {
       ) : (
         <TransactionCon>
           <Transactions>
-          {state.data.slice().reverse().map((data) => (
-            <TransactionItem key={data.id}>
-              <CircularBadge
-                size="50px"
-                iconSize="25px"
-                bg={badgeLookup[data.badgeType]?.bg || "#DCFAF8"}
-                img={badgeLookup[data.badgeType]?.img}
-              />
-              <TransactionDetails>
-                <Label weight={500} size="16px" color="#232323">
-                  {data.title}
-                </Label>
-                <Label weight={400} size="15px" color="#718EBF">
-                  {data.date}
-                </Label>
-              </TransactionDetails>
-              <Label
-                weight={500}
-                size="16px"
-                color={getAmountColor(data.amount)}
-                sx={{ marginLeft: "auto" }}
-              >
-                {`${data.amount.toLocaleString('en-IN')}$`}
-              </Label>
-            </TransactionItem>
-          ))}
+            {state.data
+              .slice()
+              .reverse()
+              .map((data) => (
+                <TransactionItem key={data.id}>
+                  <CircularBadge
+                    size="50px"
+                    iconSize="25px"
+                    bg={badgeLookup[data.badgeType]?.bg || "#DCFAF8"}
+                    img={badgeLookup[data.badgeType]?.img}
+                  />
+                  <TransactionDetails>
+                    <Label weight={500} size="16px" color="#232323">
+                      {data.title}
+                    </Label>
+                    <Label weight={400} size="15px" color="#718EBF">
+                      {data.date}
+                    </Label>
+                  </TransactionDetails>
+                  <Label
+                    weight={500}
+                    size="16px"
+                    color={getAmountColor(data.amount)}
+                    sx={{ marginLeft: "auto" }}
+                  >
+                    {`${data.amount.toLocaleString("en-IN")}$`}
+                  </Label>
+                </TransactionItem>
+              ))}
           </Transactions>
         </TransactionCon>
       )}
@@ -123,16 +125,16 @@ const TransactionCon = styled.div`
 `;
 
 const Transactions = styled.div`
-width: 100%;
-height: 170px;
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 10px;
-overflow: hidden;
-overflow-y: scroll;
+  width: 100%;
+  height: 170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  overflow-y: scroll;
 
-scroll-behavior: smooth;
+  scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
     display: none;

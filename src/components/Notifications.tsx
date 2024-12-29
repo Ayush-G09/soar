@@ -26,38 +26,21 @@ function Notifications() {
     <NotificationsOverlay>
       {notificationCards.map((card) => (
         <StyledCard key={card.id} type={card.type}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "start",
-              marginRight: "1rem",
-            }}
-          >
+          <IconWrapper>
             <FontAwesomeIcon
               icon={card.type === "error" ? faExclamationCircle : faCircleCheck}
             />
-          </div>
-          <Label
-            sx={{
-              marginRight: "1rem",
-            }}
+          </IconWrapper>
+          <StyledLabel
             size="1rem"
             weight={400}
             color={card.type === "error" ? "#a7222f" : "#4F7A11"}
           >
             {card.msg}
-          </Label>
-          <div
-            style={{
-              padding: "0.3rem",
-              display: "flex",
-              alignItems: "start",
-              cursor: "pointer",
-            }}
-            onClick={() => dispatch(deleteCard(card.id))}
-          >
-            <FontAwesomeIcon style={{ fontSize: "0.8rem" }} icon={faX} />
-          </div>
+          </StyledLabel>
+          <CloseButton onClick={() => dispatch(deleteCard(card.id))}>
+            <FontAwesomeIcon icon={faX} />
+          </CloseButton>
         </StyledCard>
       ))}
     </NotificationsOverlay>,
@@ -66,15 +49,15 @@ function Notifications() {
 }
 
 const fadeIn = keyframes`
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    `;
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const NotificationsOverlay = styled.div`
   position: fixed;
@@ -105,8 +88,31 @@ const StyledCard = styled.div<{ type: "error" | "success" }>`
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
   padding: 0.5rem;
   color: ${(p) => (p.type === "error" ? "#a7222f" : "#4F7A11")};
-  border: ${(p) => (`1px solid ${p.type === "error" ? "#a7222f" : "#4F7A11"}`)};
+  border: ${(p) => `1px solid ${p.type === "error" ? "#a7222f" : "#4F7A11"}`};
   pointer-events: auto;
+  align-items: center;
+  gap: 1rem;
+`;
+
+const IconWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  margin-right: 1rem;
+`;
+
+const StyledLabel = styled(Label)`
+  margin-right: 1rem;
+`;
+
+const CloseButton = styled.div`
+  padding: 0.3rem;
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+
+  svg {
+    font-size: 0.8rem;
+  }
 `;
 
 export default Notifications;

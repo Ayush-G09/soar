@@ -1,22 +1,23 @@
 import React from "react";
 import Label from "../Label";
+import styled from "styled-components";
 
 function Security() {
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "500px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <SecurityContainer>
       <Label color="black" weight={500} size="20px">
         Security
       </Label>
-    </div>
+    </SecurityContainer>
   );
-}
+};
+
+const SecurityContainer = styled.div`
+  width: 100%;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export default Security;

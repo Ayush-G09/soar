@@ -45,8 +45,8 @@ const StyledDashboard = styled.div`
   scrollbar-width: none;
 
   @media (min-width: ${breakpoints.tablet}) {
-      padding: 30px;
-    }
+    padding: 30px;
+  }
 `;
 
 const Row = styled.div`
@@ -56,8 +56,8 @@ const Row = styled.div`
   gap: 30px;
 
   @media (min-width: ${breakpoints.tablet}) {
-      flex-direction: row;
-    }
+    flex-direction: row;
+  }
 `;
 
 export default Dashboard;

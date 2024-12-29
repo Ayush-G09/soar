@@ -12,11 +12,14 @@ function Layout() {
   const toggleSidebar = (e: boolean) => {
     setIsSidebarOpen(e);
   };
-  
+
   return (
     <StyledLayout>
       <Notifications />
-      <Sidebar opened={isSidebarOpen} closeSidebar={(e: boolean) => toggleSidebar(e)} />
+      <Sidebar
+        opened={isSidebarOpen}
+        closeSidebar={(e: boolean) => toggleSidebar(e)}
+      />
       <ContentArea>
         <Header openSidebar={(e: boolean) => toggleSidebar(e)} />
         <MainContent>
@@ -50,7 +53,7 @@ const MainContent = styled.div`
   box-sizing: border-box;
 
   @media (min-width: ${breakpoints.tablet}) {
-      height: 90%;
+    height: 90%;
   }
 `;
 
