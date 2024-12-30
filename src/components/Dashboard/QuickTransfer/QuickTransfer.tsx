@@ -7,12 +7,14 @@ import rightArrow from "../../../assets/right-arrow.png";
 import leftArrow from "../../../assets/left-arrow.png";
 import send from "../../../assets/Send.png";
 import QuickTransferLoading from "./Loading";
-import { generateRandomId, getFormattedDate } from "../../../utils";
+import { breakpoints, generateRandomId, getFormattedDate } from "../../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { addTransaction } from "../../../store/transactionsSlice";
 import { addCard, deleteCard } from "../../../store/notificationsSlice";
 import { MoonLoader } from "react-spinners";
+import { Heading } from "../WeeklyActivity/WeeklyActivity";
+import { useMediaQuery } from "react-responsive";
 
 type State = {
   loading: boolean;
@@ -83,20 +85,16 @@ function QuickTransfer() {
         onClick={() => setState((prev) => ({ ...prev, selected: user.id }))}
       >
         <UserImage src={user.img} alt={user.name} />
-        <Label
-          weight={state.selected === user.id ? 700 : 400}
-          size="16px"
-          color="#232323"
+        <UsernameLabel
+          style={{fontWeight: state.selected === user.id ? 700 : 400}}
         >
           {user.name}
-        </Label>
-        <Label
-          weight={state.selected === user.id ? 700 : 400}
-          size="15px"
-          color="#718EBF"
+        </UsernameLabel>
+        <RoleLabel
+          style={{fontWeight: state.selected === user.id ? 700 : 400}}
         >
           {state.selected === user.id ? user.role.toUpperCase() : user.role}
-        </Label>
+        </RoleLabel>
       </UserCard>
     ));
   }, [state.data, state.selected]);
@@ -191,11 +189,13 @@ function QuickTransfer() {
     }, 1500);
   };
 
+  const isTablet = useMediaQuery({ minWidth: breakpoints.tablet });
+
   return (
     <Container>
-      <Label weight={600} size="22px" color="#343C6A">
+      <Heading>
         Quick Transfer
-      </Label>
+      </Heading>
       {state.loading ? (
         <QuickTransferLoading />
       ) : (
@@ -210,7 +210,7 @@ function QuickTransfer() {
                   onClick={() => handleScroll("right")}
                   sx={BadgeStyle}
                   img={rightArrow}
-                  size="50px"
+                  size={isTablet ? "50px" : "40px"}
                   bg="white"
                   role="button"
                   aria-label="Scroll to the right"
@@ -222,7 +222,7 @@ function QuickTransfer() {
                   onClick={() => handleScroll("left")}
                   sx={BadgeStyle}
                   img={leftArrow}
-                  size="50px"
+                  size={isTablet ? "50px" : "40px"}
                   bg="white"
                   role="button"
                   aria-label="Scroll to the left"
@@ -233,7 +233,7 @@ function QuickTransfer() {
           </UsersSection>
           <div>
             <SendSection>
-              <Label color="#718EBF" weight={400} size="16px">
+              <Label color="#718EBF" weight={400} size={isTablet ? "16px" : "12px"}>
                 Write Amount
               </Label>
               <AmountContainer
@@ -259,7 +259,7 @@ function QuickTransfer() {
                     <MoonLoader color="white" size={20} />
                   ) : (
                     <>
-                      <Label weight={500} size="16px" color="#FFFFFF">
+                      <Label weight={500} size={isTablet ? "16px" : "12px"} color="#FFFFFF">
                         Send
                       </Label>
                       <SendIcon src={send} alt="Send" />
@@ -290,16 +290,21 @@ function QuickTransfer() {
 }
 
 const Container = styled.div`
-  width: 445px;
-  height: 323px;
+  width: 100%;
+  max-width: 445px;
+  height: 229px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 323px;
+  }
 `;
 
 const ContentBox = styled.div`
   width: 100%;
-  height: 276px;
+  height: 195px;
   gap: 29px;
   overflow: hidden;
   background-color: white;
@@ -308,12 +313,21 @@ const ContentBox = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 276px;
+  }
 `;
 
 const UsersSection = styled.div`
-  width: 394px;
-  height: 127px;
+  width: 100%;
+  max-width: 394px;
+  height: 93px;
   display: flex;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 127px;
+  }
 `;
 
 const StyledUserContainer = styled.div`
@@ -351,9 +365,32 @@ const UserCard = styled.div`
 `;
 
 const UserImage = styled.img`
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   margin-bottom: 10px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 70px;
+    height: 70px;
+  }
+`;
+
+const UsernameLabel = styled.label`
+color: #232323;
+font-size: 12px;
+
+@media (min-width: ${breakpoints.tablet}) {
+  font-size: 16px;
+}
+`;
+
+const RoleLabel = styled.label`
+color: #718EBF;
+font-size: 12px;
+
+@media (min-width: ${breakpoints.tablet}) {
+  font-size: 15px;
+}
 `;
 
 const ArrowContainer = styled.div`
@@ -367,39 +404,52 @@ const ArrowContainer = styled.div`
 `;
 
 const SendSection = styled.div`
-  width: 395px;
-  height: 50px;
+  width: 289px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 395px;
+    height: 50px;
+  }
 `;
 
 const AmountContainer = styled.div`
-  width: 265px;
+  width: 187px;
   height: 100%;
   background-color: #edf1f7;
   display: flex;
   border-radius: 50px;
   align-items: center;
   overflow: hidden;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 265px;
+  }
 `;
 
 const Input = styled.input`
-  width: 120px;
+  width: 75px;
   height: 90%;
   outline: none;
   border: none;
   background-color: transparent;
   padding: 0 20px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 120px;
+  }
 `;
 
 const SendButton = styled.div`
-  width: 125px;
-  height: 50px;
+  width: 100px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 6px;
   background-color: #232323;
   border-radius: 50px;
   cursor: pointer;
@@ -415,11 +465,22 @@ const SendButton = styled.div`
     transform: scale(0.95);
     box-shadow: 2px 2px 12px -1px #b0afaf;
   }
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 125px;
+    height: 50px;
+    gap: 12px;
+  }
 `;
 
 const SendIcon = styled.img`
-  width: 26px;
-  height: 22.6px;
+  width: 16.11px;
+  height: 14px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 26px;
+    height: 22.6px;
+  }
 `;
 
 const BadgeStyle = {

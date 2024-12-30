@@ -1,13 +1,16 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
+import { breakpoints } from "../../../utils";
 
 const PieChartSkeleton = () => {
+  const isTablet = useMediaQuery({ minWidth: breakpoints.tablet });
   return (
     <SkeletonWrapper>
       <SkeletonCircleWrapper>
-        <Skeleton circle={true} height={250} width={250} />
+        <Skeleton circle={true} height={isTablet ? 250 : 180} width={isTablet ? 250 : 180} />
       </SkeletonCircleWrapper>
     </SkeletonWrapper>
   );

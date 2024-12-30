@@ -9,6 +9,9 @@ import RecentTransactionLoading from "./Loading";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
+import { breakpoints } from "../../../utils";
+import { Heading } from "../WeeklyActivity/WeeklyActivity";
+import { useMediaQuery } from "react-responsive";
 
 type State = {
   loading: boolean;
@@ -30,6 +33,7 @@ const RecentTransactions = () => {
   });
 
   const transactions = useSelector((state: RootState) => state.transactions);
+  const isTablet = useMediaQuery({ minWidth: breakpoints.tablet });
 
   const mockApi = () => {
     return new Promise((resolve) => {
@@ -61,9 +65,9 @@ const RecentTransactions = () => {
 
   return (
     <Container>
-      <Label weight={600} size="22px" color="#343C6A">
+      <Heading>
         Recent Transaction
-      </Label>
+      </Heading>
       {state.loading ? (
         <RecentTransactionLoading />
       ) : (
@@ -75,18 +79,18 @@ const RecentTransactions = () => {
               .map((data) => (
                 <TransactionItem key={data.id}>
                   <CircularBadge
-                    size="50px"
+                    size={isTablet ? "50px" : "40px"}
                     iconSize="25px"
                     bg={badgeLookup[data.badgeType]?.bg || "#DCFAF8"}
                     img={badgeLookup[data.badgeType]?.img}
                   />
                   <TransactionDetails>
-                    <Label weight={500} size="16px" color="#232323">
+                    <Title>
                       {data.title}
-                    </Label>
-                    <Label weight={400} size="15px" color="#718EBF">
+                    </Title>
+                    <Date>
                       {data.date}
-                    </Label>
+                    </Date>
                   </TransactionDetails>
                   <Label
                     weight={500}
@@ -106,27 +110,36 @@ const RecentTransactions = () => {
 };
 
 const Container = styled.div`
-  width: 350px;
-  height: 282px;
+  width: 100%;
+  max-width: 350px;
+  height: 245px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 282px;
+  }
 `;
 
 const TransactionCon = styled.div`
   width: 100%;
-  height: 235px;
+  height: 214px;
   display: flex;
   flex-direction: column;
   background-color: white;
   border-radius: 25px;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 235px;
+  }
 `;
 
 const Transactions = styled.div`
   width: 100%;
-  height: 170px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -141,18 +154,47 @@ const Transactions = styled.div`
   }
 
   scrollbar-width: none;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 170px;
+  }
 `;
 
 const TransactionItem = styled.div`
   display: flex;
   align-items: center;
-  width: 301px;
-  gap: 1rem;
+  width: 289px;
+  gap: 0.5rem;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 301px;
+    gap: 1rem;
+  }
 `;
 
 const TransactionDetails = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const Title = styled.label`
+color: #232323;
+font-weight: 500;
+fonts-size: 14px;
+
+@media (min-width: ${breakpoints.tablet}) {
+    fonts-size: 16px;
+  }
+`;
+
+const Date = styled.label`
+color: #718EBF;
+font-weight: 400;
+fonts-size: 12px;
+
+@media (min-width: ${breakpoints.tablet}) {
+    fonts-size: 15px;
+  }
 `;
 
 export default RecentTransactions;

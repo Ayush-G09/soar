@@ -2,32 +2,35 @@ import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import styled from "styled-components";
+import { breakpoints } from "../../../utils";
+import { useMediaQuery } from "react-responsive";
 
 const QuickTransferLoading = () => {
+  const isTablet = useMediaQuery({ minWidth: breakpoints.tablet });
   return (
     <ContentBox>
       <UsersSection>
         <StyledUserContainer>
           {[...Array(3)].map((_, index) => (
             <UserCard key={index}>
-              <Skeleton circle height={70} width={70} />
-              <Skeleton height={16} width={90} style={{ marginTop: "10px" }} />
-              <Skeleton height={15} width={70} style={{ marginTop: "5px" }} />
+              <Skeleton circle height={isTablet ? 70 : 50} width={isTablet ? 70 : 50} />
+              <Skeleton height={16} width={isTablet ? 90 : 70} style={{ marginTop: "10px" }} />
+              <Skeleton height={15} width={isTablet ? 70 : 50} style={{ marginTop: "5px" }} />
             </UserCard>
           ))}
         </StyledUserContainer>
         <ArrowContainer>
-          <Skeleton circle height={50} width={50} />
-          <Skeleton circle height={50} width={50} />
+          <Skeleton circle height={isTablet ? 50 : 40} width={isTablet ? 50 : 40} />
+          <Skeleton circle height={isTablet ? 50 : 40} width={isTablet ? 50 : 40} />
         </ArrowContainer>
       </UsersSection>
 
       <SendSection>
-        <Skeleton width={100} height={16} />
+        <Skeleton width={isTablet ? 100 : 80} height={16} />
         <AmountContainer>
-          <Skeleton width={120} height={30} style={{ marginLeft: "10px" }} />
+          <Skeleton width={isTablet ? 120 : 100} height={30} style={{ marginLeft: "10px" }} />
           <SendButton>
-            <Skeleton width={60} height={20} />
+            <Skeleton width={isTablet ? 60 : 40} height={20} />
           </SendButton>
         </AmountContainer>
       </SendSection>
@@ -37,7 +40,7 @@ const QuickTransferLoading = () => {
 
 const ContentBox = styled.div`
   width: 100%;
-  height: 276px;
+  height: 195px;
   gap: 29px;
   overflow: hidden;
   background-color: white;
@@ -46,12 +49,21 @@ const ContentBox = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 276px;
+  }
 `;
 
 const UsersSection = styled.div`
-  width: 394px;
-  height: 127px;
+  width: 100%;
+  max-width: 394px;
+  height: 93px;
   display: flex;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 127px;
+  }
 `;
 
 const StyledUserContainer = styled.div`
@@ -82,30 +94,44 @@ const ArrowContainer = styled.div`
 `;
 
 const SendSection = styled.div`
-  width: 395px;
-  height: 50px;
+  width: 289px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 395px;
+    height: 50px;
+  }
 `;
 
 const AmountContainer = styled.div`
-  width: 265px;
+  width: 187px;
   height: 100%;
   background-color: #edf1f7;
   display: flex;
   border-radius: 50px;
   align-items: center;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 265px;
+  }
 `;
 
 const SendButton = styled.div`
-  width: 125px;
-  height: 50px;
+  width: 100px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #f0f0f0;
   border-radius: 50px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 125px;
+    height: 50px;
+  }
 `;
 
 export default QuickTransferLoading;

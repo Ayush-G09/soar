@@ -6,8 +6,10 @@ import CardLogo from "../../../assets/Group 17.png";
 import CardLogo2 from "../../../assets/Group 17 (1).png";
 import { motion } from "framer-motion";
 import { CreditCardType } from "../../../types";
-import Label from "../../Label";
 import CardsLoading from "./Loading";
+import { Heading } from "../WeeklyActivity/WeeklyActivity";
+import { breakpoints } from "../../../utils";
+import { useMediaQuery } from "react-responsive";
 
 type State = {
   loading: boolean;
@@ -20,6 +22,8 @@ function MyCards() {
     loading: false,
     cardsData: [],
   });
+
+  const isTablet = useMediaQuery({ minWidth: breakpoints.tablet });
 
   const cardElements = useMemo(() => {
     return state.cardsData.map((card) => {
@@ -36,40 +40,40 @@ function MyCards() {
           <CardContent>
             <CardHeader>
               <div>
-                <Label color={textColor} size="12px" weight={400}>
+                <BalanceLabel style={{color: textColor}}>
                   Balance
-                </Label>
-                <Label color={textColor} size="18px" weight={600}>
+                </BalanceLabel>
+                <Balance style={{color: textColor}}>
                   ${card.balance}
-                </Label>
+                </Balance>
               </div>
-              <img src={cardChip} alt="Card Chip" />
+              <CardChipImage src={cardChip} alt="Card Chip" />
             </CardHeader>
             <CardDetails>
               <div>
-                <Label weight={400} size="12px" color={secondaryTextColor}>
+                <DetailLabel style={{color: secondaryTextColor}}>
                   CARD HOLDER
-                </Label>
-                <Label weight={600} size="15px" color={textColor}>
+                </DetailLabel>
+                <DetailContent style={{color: textColor}}>
                   {card.holder}
-                </Label>
+                </DetailContent>
               </div>
               <div>
-                <Label weight={400} size="12px" color={secondaryTextColor}>
+                <DetailLabel style={{color: secondaryTextColor}}>
                   VALID THRU
-                </Label>
-                <Label weight={600} size="15px" color={textColor}>
+                </DetailLabel>
+                <DetailContent style={{color: textColor}}>
                   {card.valid}
-                </Label>
+                </DetailContent>
               </div>
             </CardDetails>
           </CardContent>
           <CardFooter $cardType={card.type}>
             <CardFooterContent>
-              <Label size="22px" weight={600} color={textColor}>
+              <CardNo style={{color: textColor}}>
                 {card.cardNo}
-              </Label>
-              <img src={cardLogo} alt="Card Logo" />
+              </CardNo>
+              <CardLogoImage src={cardLogo} alt="Card Logo" />
             </CardFooterContent>
           </CardFooter>
         </Card>
@@ -132,28 +136,24 @@ function MyCards() {
 
   return (
     <Container
-      initial={{ height: 282 }}
-      animate={{ height: seeAll ? "auto" : 282 }}
+      initial={{ height: isTablet ? 282 : 201 }}
+      animate={{ height: seeAll ? "auto" : isTablet ? 282 : 201 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       <Header>
-        <Label color="#343C6A" size="22px" weight={600}>
+        <Heading>
           My Cards
-        </Label>
+        </Heading>
         {!state.loading && state.cardsData.length ? (
-          <Label
-            click={() => setSeeAll(!seeAll)}
+          <Show
+            onClick={() => setSeeAll(!seeAll)}
             onKeyDown={(event) => {
               if (event.key === "Enter") setSeeAll(!seeAll);
             }}
             aria-label={seeAll ? "Show less cards" : "See all cards"}
-            sx={{ cursor: "pointer", marginTop: "5px" }}
-            color="#343C6A"
-            size="15px"
-            weight={600}
           >
             {seeAll ? "Show Less" : "See All"}
-          </Label>
+          </Show>
         ) : null}
       </Header>
       {state.loading ? <CardsLoading /> : <CardsGrid>{cardElements}</CardsGrid>}
@@ -162,7 +162,8 @@ function MyCards() {
 }
 
 const Container = styled(motion.div)`
-  width: 730px;
+  width: 100%;
+  max-width: 730px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -170,24 +171,33 @@ const Container = styled(motion.div)`
 
 const Header = styled.div`
   width: 100%;
-  min-height: 47px;
+  height: 31px;
   display: flex;
   justify-content: space-between;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 47px;
+  }
 `;
 
 const CardsGrid = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
   gap: 30px;
   overflow: hidden;
-  place-items: stretch;
+  place-items: center;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    place-items: stretch;
+  }
 `;
 
 const Card = styled.div<{ $cardType: string }>`
-  width: 350px;
-  height: 235px;
+  width: 265px;
+  height: 170px;
   border-radius: 25px;
   box-sizing: border-box;
   background: ${({ $cardType }) =>
@@ -196,36 +206,55 @@ const Card = styled.div<{ $cardType: string }>`
       : "white"};
   border: ${({ $cardType }) =>
     $cardType === "black" ? "none" : "1px solid #DFEAF2"};
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 350px;
+    height: 235px;
+  }
 `;
 
 const CardContent = styled.div`
   width: 100%;
-  height: 165px;
+  height: 119px;
   padding: 25px;
   box-sizing: border-box;
-  gap: 30px;
+  gap: 15px;
   display: flex;
   flex-direction: column;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 165px;
+    gap: 30px;
+  }
 `;
 
 const CardHeader = styled.div`
-  height: 38px;
+  height: 33px;
   width: 100%;
   display: flex;
   justify-content: space-between;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 38px;
+  }
 `;
 
 const CardDetails = styled.div`
   width: 100%;
-  height: 35px;
+  height: 30px;
   display: flex;
   align-items: center;
-  gap: 67px;
+  gap: 57px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 35px;
+    gap: 67px;
+  }
 `;
 
 const CardFooter = styled.div<{ $cardType: string }>`
   width: 100%;
-  height: 70px;
+  height: 51px;
   background: ${({ $cardType }) =>
     $cardType === "black"
       ? "linear-gradient(180deg, rgba(225, 225, 225, 0.15) 0%, rgba(225, 225, 225, 0) 100%)"
@@ -235,14 +264,99 @@ const CardFooter = styled.div<{ $cardType: string }>`
   justify-content: center;
   border-top: ${({ $cardType }) =>
     $cardType === "black" ? "none" : "1px solid rgba(223, 234, 242, 1)"};
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 70px;
+  }
 `;
 
 const CardFooterContent = styled.div`
   display: flex;
   align-items: center;
-  height: 30px;
-  width: 300px;
+  height: 19px;
+  width: 228px;
   justify-content: space-between;
+  
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 30px;
+    width: 300px;
+  }
+`;
+
+const CardChipImage = styled.img`
+width: 29px;
+height: 29px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 35px;
+    width: 35px;
+  }
+`;
+
+const CardLogoImage = styled.img`
+width: 27px;
+height: 18.4px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 30px;
+    width: 44px;
+  }
+`;
+
+const BalanceLabel = styled.label`
+font-size: 10px;
+weight: 400;
+
+@media (min-width: ${breakpoints.tablet}) {
+    font-size: 12px;
+  }
+`;
+
+const Balance = styled.label`
+font-size: 16px;
+weight: 600;
+
+@media (min-width: ${breakpoints.tablet}) {
+    font-size: 18px;
+  }
+`;
+
+const DetailLabel = styled.label`
+font-size: 10px;
+weight: 400;
+
+@media (min-width: ${breakpoints.tablet}) {
+    font-size: 12px;
+  }
+`;
+
+const DetailContent = styled.label`
+font-size: 13px;
+weight: 600;
+
+@media (min-width: ${breakpoints.tablet}) {
+    font-size: 15px;
+  }
+`;
+
+const CardNo = styled.label`
+font-size: 15px;
+weight: 600;
+
+@media (min-width: ${breakpoints.tablet}) {
+    font-size: 22px;
+  }
+`;
+
+const Show = styled.label`
+font-size: 13px;
+weight: 600;
+color: #343C6A;
+cursor: pointer;
+
+@media (min-width: ${breakpoints.tablet}) {
+    font-size: 25px;
+  }
 `;
 
 export default MyCards;

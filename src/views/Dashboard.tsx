@@ -54,9 +54,15 @@ const Row = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
+  padding-left: 0%;
 
   @media (min-width: ${breakpoints.tablet}) {
+    padding-left: 10%;
+  }
+
+  @media (min-width: ${breakpoints.desktop}) {
     flex-direction: row;
+    padding-left: 0%;
   }
 `;
 

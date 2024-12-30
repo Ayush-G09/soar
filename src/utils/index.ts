@@ -1,7 +1,7 @@
 export const breakpoints = {
   mobile: "600px",
   tablet: "768px",
-  desktop: "1024px",
+  desktop: "1440px",
 };
 
 export function convertPathToTitle(path: string) {
