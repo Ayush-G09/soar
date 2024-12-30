@@ -355,7 +355,7 @@ color: #343C6A;
 cursor: pointer;
 
 @media (min-width: ${breakpoints.tablet}) {
-    font-size: 25px;
+    font-size: 16px;
   }
 `;
 
